@@ -1,6 +1,6 @@
 {
   "name": "@ef4/lerna-changelog",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Generate a changelog for a lerna monorepo",
   "keywords": [
     "changelog",
