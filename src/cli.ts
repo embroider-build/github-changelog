@@ -88,5 +88,6 @@ export async function run() {
     } else {
       console.log(chalk.red(e.stack));
     }
+    process.exit(-1);
   }
 }
