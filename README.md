@@ -1,3 +1,5 @@
+I'm publishing and maintaining this fork based on @NathanPJF's PR [here](https://github.com/lerna/lerna-changelog/pull/134), since upstream seems to have no activity. It's available on NPM as `@ef4/lerna-changelog`. - ef4
+
 lerna-changelog
 ==============================================================================
 
