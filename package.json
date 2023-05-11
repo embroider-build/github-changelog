@@ -1,14 +1,14 @@
 {
-  "name": "lerna-changelog",
-  "version": "2.2.0",
+  "name": "@ef4/lerna-changelog",
+  "version": "1.0.4",
   "description": "Generate a changelog for a lerna monorepo",
   "keywords": [
     "changelog",
     "lerna"
   ],
-  "homepage": "https://github.com/lerna/lerna-changelog#readme",
+  "homepage": "https://github.com/ef4/lerna-changelog#readme",
   "bugs": {
-    "url": "https://github.com/lerna/lerna-changelog/issues"
+    "url": "https://github.com/ef4/lerna-changelog/issues"
   },
   "license": "MIT",
   "author": "Bo Borgerson <gigabo@gmail.com>",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lerna/lerna-changelog.git"
+    "url": "git+https://github.com/ef4/lerna-changelog.git"
   },
   "scripts": {
     "build": "yarn clean && tsc",
@@ -65,7 +65,7 @@
     "node": "12.* || 14.* || >= 16"
   },
   "changelog": {
-    "repo": "lerna/lerna-changelog",
+    "repo": "ef4/lerna-changelog",
     "labels": {
       "breaking": ":boom: Breaking Change",
       "enhancement": ":rocket: Enhancement",
