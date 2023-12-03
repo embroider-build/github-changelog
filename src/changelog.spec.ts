@@ -26,6 +26,34 @@ describe("Changelog", () => {
     }
   });
 
+  describe("packageFromPath with custom packages", () => {
+    const MockedChangelog = require("./changelog").default;
+
+    const TESTS = [
+      ["", ""],
+      ["/some/path/to/repo/foo.js", ""],
+      ["/some/path/to/repo/packages/foo.js", ""],
+      ["/some/path/to/repo/packages/tests/foo/face.js", ""],
+      ["/some/path/to/repo/packages/tests/yup/face.js", "another-one"],
+      ["/some/path/to/repo/funky-package/foo/bar/baz.js", ""],
+      ["/some/path/to/repo/packages/funky-package/foo/bar/baz.js", ""],
+      ["/some/path/to/repo/over-here/foo/bar/baz.js", "funky-package"],
+    ];
+
+    for (let [input, expected] of TESTS) {
+      it(`${input} -> ${expected}`, () => {
+        const changelog = new MockedChangelog({
+          rootPath: "/some/path/to/repo/",
+          packages: [
+            { name: "funky-package", path: "/some/path/to/repo/over-here" },
+            { name: "another-one", path: "/some/path/to/repo/packages/tests/yup" },
+          ],
+        });
+        expect(changelog.packageFromPath(input)).toEqual(expected);
+      });
+    }
+  });
+
   describe("getCommitInfos", () => {
     beforeEach(() => {
       require("./fetch").__resetMockResponses();
