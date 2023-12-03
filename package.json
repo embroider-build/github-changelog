@@ -10,15 +10,15 @@
   "bugs": {
     "url": "https://github.com/ef4/lerna-changelog/issues"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ef4/lerna-changelog.git"
+  },
   "license": "MIT",
   "author": "Bo Borgerson <gigabo@gmail.com>",
   "main": "index.js",
   "bin": {
     "lerna-changelog": "bin/cli.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ef4/lerna-changelog.git"
   },
   "scripts": {
     "build": "yarn clean && tsc",
@@ -32,6 +32,34 @@
     "test": "jest",
     "test-ci": "yarn build && yarn test",
     "watch": "yarn build -- --watch"
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "printWidth": 120,
+    "singleQuote": false,
+    "tabWidth": 2,
+    "trailingComma": "es5"
+  },
+  "jest": {
+    "projects": [
+      {
+        "displayName": "test",
+        "roots": [
+          "src"
+        ],
+        "preset": "ts-jest"
+      },
+      {
+        "displayName": "lint",
+        "runner": "jest-runner-eslint",
+        "moduleFileExtensions": [
+          "ts"
+        ],
+        "testMatch": [
+          "<rootDir>/src/**/*.ts"
+        ]
+      }
+    ]
   },
   "dependencies": {
     "chalk": "^4.0.0",
@@ -57,6 +85,7 @@
     "prettier": "2.8.8",
     "release-it": "17.0.0",
     "release-it-lerna-changelog": "5.0.0",
+    "release-plan": "^0.3.0",
     "rimraf": "3.0.2",
     "ts-jest": "29.1.1",
     "typescript": "5.0.4"
@@ -74,33 +103,5 @@
       "internal": ":house: Internal"
     },
     "cacheDir": ".changelog"
-  },
-  "jest": {
-    "projects": [
-      {
-        "displayName": "test",
-        "roots": [
-          "src"
-        ],
-        "preset": "ts-jest"
-      },
-      {
-        "displayName": "lint",
-        "runner": "jest-runner-eslint",
-        "moduleFileExtensions": [
-          "ts"
-        ],
-        "testMatch": [
-          "<rootDir>/src/**/*.ts"
-        ]
-      }
-    ]
-  },
-  "prettier": {
-    "arrowParens": "avoid",
-    "printWidth": 120,
-    "tabWidth": 2,
-    "singleQuote": false,
-    "trailingComma": "es5"
   }
 }
