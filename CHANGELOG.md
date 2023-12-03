@@ -1,107 +1,37 @@
 # Changelog
 
-
-
-
-## v2.2.0 (2021-10-11)
-
-#### :rocket: Enhancement
-* [#560](https://github.com/lerna/lerna-changelog/pull/560) Update `cli-highlight` to v2.1.11 ([@elwayman02](https://github.com/elwayman02))
-
-#### Committers: 1
-- Jordan Hawker ([@elwayman02](https://github.com/elwayman02))
-
-## v2.1.0 (2021-08-07)
-
-#### :rocket: Enhancement
-* [#495](https://github.com/lerna/lerna-changelog/pull/495) Add support for `--repo` option ([@Turbo87](https://github.com/Turbo87))
-
-#### Committers: 1
-- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
-
-## v2.0.1 (2021-08-07)
-
-#### :bug: Bug Fix
-* [#296](https://github.com/lerna/lerna-changelog/pull/296) Omit commiters line when all are filtered out ([@petrch87](https://github.com/petrch87))
-* [#398](https://github.com/lerna/lerna-changelog/pull/398) Fix handling of --next-version-from-metadata option ([@contolini](https://github.com/contolini))
-
-#### :house: Internal
-* [#494](https://github.com/lerna/lerna-changelog/pull/494) Update yargs to v17.x ([@Turbo87](https://github.com/Turbo87))
-* [#493](https://github.com/lerna/lerna-changelog/pull/493) CI: Run `pnpm install` before `npm publish` ([@Turbo87](https://github.com/Turbo87))
-
-#### Committers: 3
-- Chris Contolini ([@contolini](https://github.com/contolini))
-- Petr Chňoupek ([@petrch87](https://github.com/petrch87))
-- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
-
-
-## v2.0.0 (2021-08-07)
+## Changes inherited from upstream after reset
 
 #### :boom: Breaking Change
 * [#486](https://github.com/lerna/lerna-changelog/pull/486) Drop support for Node.js 10 ([@Turbo87](https://github.com/Turbo87))
-
-#### :rocket: Enhancement
-* [#492](https://github.com/lerna/lerna-changelog/pull/492) Add `dependabot-preview` to default list of ignored committers ([@Turbo87](https://github.com/Turbo87))
-
-#### :memo: Documentation
-* [#472](https://github.com/lerna/lerna-changelog/pull/472) README: Recommend `npx` usage instead of global install ([@Turbo87](https://github.com/Turbo87))
-
-#### :house: Internal
-* [#491](https://github.com/lerna/lerna-changelog/pull/491) Add `release-it` to simplify the release process ([@Turbo87](https://github.com/Turbo87))
-* [#490](https://github.com/lerna/lerna-changelog/pull/490) CI: Release tags automatically ([@Turbo87](https://github.com/Turbo87))
-* [#489](https://github.com/lerna/lerna-changelog/pull/489) Update `.npmignore` file ([@Turbo87](https://github.com/Turbo87))
-* [#488](https://github.com/lerna/lerna-changelog/pull/488) Disable dependabot ([@Turbo87](https://github.com/Turbo87))
-* [#487](https://github.com/lerna/lerna-changelog/pull/487) CI: Update `pnpm` version ([@Turbo87](https://github.com/Turbo87))
-* [#475](https://github.com/lerna/lerna-changelog/pull/475) git: Extract `getRootPath()` function ([@Turbo87](https://github.com/Turbo87))
-* [#474](https://github.com/lerna/lerna-changelog/pull/474) Remove obsolete TSLint references ([@Turbo87](https://github.com/Turbo87))
-* [#473](https://github.com/lerna/lerna-changelog/pull/473) Use `pnpm` instead of `yarn` for development ([@Turbo87](https://github.com/Turbo87))
-* [#469](https://github.com/lerna/lerna-changelog/pull/469) Replace TravisCI with GitHub Actions ([@Turbo87](https://github.com/Turbo87))
-* [#335](https://github.com/lerna/lerna-changelog/pull/335) Use yarn in scripts ([@dcyriller](https://github.com/dcyriller))
-* [#268](https://github.com/lerna/lerna-changelog/pull/268) Migrate from normalize-git-info to hosted-git-info. ([@rwjblue](https://github.com/rwjblue))
-
-#### Committers: 3
-- Cyrille David ([@dcyriller](https://github.com/dcyriller))
-- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
-- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
-
-
-## v1.0.1 (2020-03-04)
-
-#### :bug: Bug Fix
-* [#259](https://github.com/lerna/lerna-changelog/pull/259) Allow `;` characters in merge commit messages ([@tuchk4](https://github.com/tuchk4))
-
-#### :house: Internal
-* [#260](https://github.com/lerna/lerna-changelog/pull/260) Remove `os.tmpDir` deprecation warning ([@tuchk4](https://github.com/tuchk4))
-
-#### Committers: 2
-- Valerii Sorokobatko ([@tuchk4](https://github.com/tuchk4))
-
-
-## v1.0.0 (2019-12-16)
-
-#### :boom: Breaking Change
 * [#198](https://github.com/lerna/lerna-changelog/pull/198) Drop support for Node 8 ([@Turbo87](https://github.com/Turbo87))
 * [#160](https://github.com/lerna/lerna-changelog/pull/160) Drop support for Node 6 ([@Turbo87](https://github.com/Turbo87))
 
 #### :rocket: Enhancement
+* [#560](https://github.com/lerna/lerna-changelog/pull/560) Update `cli-highlight` to v2.1.11 ([@elwayman02](https://github.com/elwayman02))
+* [#495](https://github.com/lerna/lerna-changelog/pull/495) Add support for `--repo` option ([@Turbo87](https://github.com/Turbo87))
+* [#492](https://github.com/lerna/lerna-changelog/pull/492) Add `dependabot-preview` to default list of ignored committers ([@Turbo87](https://github.com/Turbo87))
 * [#153](https://github.com/lerna/lerna-changelog/pull/153) enhancement: Update string renderer to add empty lines only when commits are present.  ([@shrikanthkr](https://github.com/shrikanthkr))
 * [#158](https://github.com/lerna/lerna-changelog/pull/158) Upgrade `yargs` to v13 ([@dcyriller](https://github.com/dcyriller))
 
 #### :bug: Bug Fix
+* [#296](https://github.com/lerna/lerna-changelog/pull/296) Omit commiters line when all are filtered out ([@petrch87](https://github.com/petrch87))
+* [#398](https://github.com/lerna/lerna-changelog/pull/398) Fix handling of --next-version-from-metadata option ([@contolini](https://github.com/contolini))
+* [#259](https://github.com/lerna/lerna-changelog/pull/259) Allow `;` characters in merge commit messages ([@tuchk4](https://github.com/tuchk4))
 * [#189](https://github.com/lerna/lerna-changelog/pull/189) Abort process when github response is not OK ([@emmenko](https://github.com/emmenko))
 
-#### :house: Internal
-* [#147](https://github.com/lerna/lerna-changelog/pull/147) Switch from TSLint to ESLint ([@trivikr](https://github.com/trivikr))
-* [#161](https://github.com/lerna/lerna-changelog/pull/161) CI: Add Node.js 12 to the test matrix ([@trivikr](https://github.com/trivikr))
-* [#159](https://github.com/lerna/lerna-changelog/pull/159) Adjust `.npmignore` file ([@Turbo87](https://github.com/Turbo87))
+#### :memo: Documentation
+* [#472](https://github.com/lerna/lerna-changelog/pull/472) README: Recommend `npx` usage instead of global install ([@Turbo87](https://github.com/Turbo87))
 
-#### Committers: 5
+#### Committers
+- Jordan Hawker ([@elwayman02](https://github.com/elwayman02))
+- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
+- Chris Contolini ([@contolini](https://github.com/contolini))
+- Petr Chňoupek ([@petrch87](https://github.com/petrch87))
+- Valerii Sorokobatko ([@tuchk4](https://github.com/tuchk4))
 - Cyrille David ([@dcyriller](https://github.com/dcyriller))
 - Nicola Molinari ([@emmenko](https://github.com/emmenko))
 - Shrikanth ([@shrikanthkr](https://github.com/shrikanthkr))
-- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
-- Trivikram Kamat ([@trivikr](https://github.com/trivikr))
-
 
 ## v0.8.3 (2019-11-11)
 
