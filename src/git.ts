@@ -1,5 +1,10 @@
 const execa = require("execa");
 
+export function getRootPath() {
+  const cwd = process.cwd();
+  return execa.sync("git", ["rev-parse", "--show-toplevel"], { cwd }).stdout;
+}
+
 export async function changedPaths(sha: string): Promise<string[]> {
   const result = await execa("git", ["show", "-m", "--name-only", "--pretty=format:", "--first-parent", sha]);
   return result.stdout.split("\n");
@@ -9,10 +14,7 @@ export async function changedPaths(sha: string): Promise<string[]> {
  * All existing tags in the repository
  */
 export function listTagNames(): string[] {
-  return execa
-    .sync("git", ["tag"])
-    .stdout.split("\n")
-    .filter(Boolean);
+  return execa.sync("git", ["tag"]).stdout.split("\n").filter(Boolean);
 }
 
 /**
@@ -29,19 +31,34 @@ export interface CommitListItem {
   date: string;
 }
 
+export function parseLogMessage(commit: string): CommitListItem | null {
+  const parts = commit.match(/hash<(.+)> ref<(.*)> message<(.*)> date<(.*)>/) || [];
+
+  if (!parts || parts.length === 0) {
+    return null;
+  }
+
+  return {
+    sha: parts[1],
+    refName: parts[2],
+    summary: parts[3],
+    date: parts[4],
+  };
+}
+
 export function listCommits(from: string, to: string = ""): CommitListItem[] {
-  // Prints "<short-hash>;<ref-name>;<summary>;<date>"
+  // Prints "hash<short-hash> ref<ref-name> message<summary> date<date>"
   // This format is used in `getCommitInfos` for easily analize the commit.
   return execa
-    .sync("git", ["log", "--oneline", "--pretty=%h;%D;%s;%cd", "--date=short", `${from}..${to}`])
+    .sync("git", [
+      "log",
+      "--oneline",
+      "--pretty=hash<%h> ref<%D> message<%s> date<%cd>",
+      "--date=short",
+      `${from}..${to}`,
+    ])
     .stdout.split("\n")
     .filter(Boolean)
-    .map((commit: string) => {
-      const parts = commit.split(";");
-      const sha = parts[0];
-      const refName = parts[1];
-      const summary = parts[2];
-      const date = parts[3];
-      return { sha, refName, summary, date };
-    });
+    .map(parseLogMessage)
+    .filter(Boolean);
 }

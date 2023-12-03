@@ -1,12 +1,12 @@
-/* tslint:disable:no-console */
-
-import chalk from "chalk";
+import chalk = require("chalk");
 
 import { highlight } from "cli-highlight";
 
 import Changelog from "./changelog";
 import { load as loadConfig } from "./configuration";
 import ConfigurationError from "./configuration-error";
+
+const NEXT_VERSION_DEFAULT = "Unreleased";
 
 export async function run() {
   const yargs = require("yargs");
@@ -36,12 +36,17 @@ export async function run() {
       "next-version": {
         type: "string",
         desc: "The name of the next version",
-        default: "Unreleased",
+        default: NEXT_VERSION_DEFAULT,
       },
       "next-version-from-metadata": {
         type: "boolean",
         desc: "Infer the name of the next version from package metadata",
         default: false,
+      },
+      repo: {
+        type: "string",
+        desc: "`<USER|ORG>/<PROJECT>` of the GitHub project",
+        defaultDescription: "inferred from the `package.json` file",
       },
     })
     .example(
@@ -64,9 +69,10 @@ export async function run() {
   try {
     let config = loadConfig({
       nextVersionFromMetadata: argv["next-version-from-metadata"],
+      repo: argv.repo,
     });
 
-    if (argv["next-version"]) {
+    if (argv["next-version"] !== NEXT_VERSION_DEFAULT) {
       config.nextVersion = argv["next-version"];
     }
 
@@ -86,8 +92,9 @@ export async function run() {
     if (e instanceof ConfigurationError) {
       console.log(chalk.red(e.message));
     } else {
-      console.log(chalk.red(e.stack));
+      console.log(chalk.red((e as any).stack));
     }
-    process.exit(-1);
+
+    process.exitCode = 1;
   }
 }

@@ -56,15 +56,19 @@ export default class GithubAPI {
 
   private async _fetch(url: string): Promise<any> {
     const res = await fetch(url, {
-      cacheManager: this.cacheDir,
+      cachePath: this.cacheDir,
       headers: {
         Authorization: `token ${this.auth}`,
       },
     });
-    return res.json();
+    const parsedResponse = await res.json();
+    if (res.ok) {
+      return parsedResponse;
+    }
+    throw new ConfigurationError(`Fetch error: ${res.statusText}.\n${JSON.stringify(parsedResponse)}`);
   }
 
   private getAuthToken(): string {
-    return process.env.GITHUB_AUTH;
+    return process.env.GITHUB_AUTH || "";
   }
 }

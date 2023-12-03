@@ -1,9 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 const execa = require("execa");
-const normalize = require("normalize-git-url");
+const hostedGitInfo = require("hosted-git-info");
 
 import ConfigurationError from "./configuration-error";
+import { getRootPath } from "./git";
 
 export interface Configuration {
   repo: string;
@@ -17,19 +18,22 @@ export interface Configuration {
 }
 
 export interface ConfigLoaderOptions {
+  repo?: string;
   nextVersionFromMetadata?: boolean;
 }
 
 export function load(options: ConfigLoaderOptions = {}): Configuration {
-  let cwd = process.cwd();
-  let rootPath = execa.sync("git", ["rev-parse", "--show-toplevel"], { cwd }).stdout;
-
+  let rootPath = getRootPath();
   return fromPath(rootPath, options);
 }
 
 export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): Configuration {
   // Step 1: load partial config from `package.json` or `lerna.json`
   let config = fromPackageConfig(rootPath) || fromLernaConfig(rootPath) || {};
+
+  if (options.repo) {
+    config.repo = options.repo;
+  }
 
   // Step 2: fill partial config with defaults
   let { repo, nextVersion, labels, cacheDir, ignoreCommitters, wildcardLabel } = config;
@@ -67,6 +71,7 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
     ignoreCommitters = [
       "dependabot-bot",
       "dependabot[bot]",
+      "dependabot-preview[bot]",
       "greenkeeperio-bot",
       "greenkeeper[bot]",
       "renovate-bot",
@@ -125,11 +130,8 @@ function findNextVersion(rootPath: string): string | undefined {
 
 export function findRepoFromPkg(pkg: any): string | undefined {
   const url = pkg.repository.url || pkg.repository;
-  const normalized = normalize(url).url;
-  const match = normalized.match(/github\.com[:/]([^./]+\/[^./]+)(?:\.git)?/);
-  if (!match) {
-    return;
+  const info = hostedGitInfo.fromUrl(url);
+  if (info && info.type === "github") {
+    return `${info.user}/${info.project}`;
   }
-
-  return match[1];
 }

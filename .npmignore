@@ -1,9 +1,12 @@
-src
 **/__mocks__/**
 **/__snapshots__/**
 *.spec.js
+*.tgz
+.changelog/
 .editorconfig
-.travis.yml
+.eslintrc.js
+.github/
+.idea/
+src
 tsconfig.json
-tslint.json
-yarn.lock
+pnpm-lock.yaml
