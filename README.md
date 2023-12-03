@@ -3,13 +3,8 @@ I'm publishing and maintaining this fork based on @NathanPJF's PR [here](https:/
 lerna-changelog
 ==============================================================================
 
-[![TravisCI Build Status][travis-badge]][travis-badge-url]
-[![Latest NPM release][npm-badge]][npm-badge-url]
-
-[npm-badge]: https://img.shields.io/npm/v/lerna-changelog.svg
-[npm-badge-url]: https://www.npmjs.com/package/lerna-changelog
-[travis-badge]: https://img.shields.io/travis/lerna/lerna-changelog/master.svg
-[travis-badge-url]: https://travis-ci.org/lerna/lerna-changelog
+[![CI](https://github.com/ef4/lerna-changelog/actions/workflows/ci.yml/badge.svg)](https://github.com/ef4/lerna-changelog/actions/workflows/ci.yml)
+![npm](https://img.shields.io/npm/dw/%40ef4%2Flerna-changelog)
 
 PR-based changelog generator with monorepo support
 
@@ -99,7 +94,7 @@ The supported options are:
 
 - `labels`: GitHub PR labels mapped to changelog section headers
 
-- `wildcardLabel`: A label to identify commits that don't have a GitHub PR label 
+- `wildcardLabel`: A label to identify commits that don't have a GitHub PR label
   which matches a value in `labels`. (e.g. `unlabeled`) By default, this has no value. [Read more about this option](#wildcardlabel).
 
 - `ignoreCommitters`: List of committers to ignore (exact or partial match).
@@ -110,7 +105,7 @@ The supported options are:
 
 ### wildcardLabel
 
-For some projects, it may be beneficial to list PRs in the changelog that don't 
+For some projects, it may be beneficial to list PRs in the changelog that don't
 have a matching label defined in the configuration `labels`. Listing these PRs also allows you to review the changelog and identify any PRs that should be re-labeled on GitHub. For example, forgetting to label a breaking change.
 
 ```json5
