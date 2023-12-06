@@ -1,4 +1,21 @@
 # Changelog
+## Release (2023-12-04)
+
+@ef4/lerna-changelog 2.0.0 (major)
+
+#### :boom: Breaking Change
+* [#6](https://github.com/ef4/lerna-changelog/pull/6) drop support for node < 16 ([@mansona](https://github.com/mansona))
+
+#### :rocket: Enhancement
+* [#1](https://github.com/ef4/lerna-changelog/pull/1) discover all packages in workspaces ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* [#4](https://github.com/ef4/lerna-changelog/pull/4) Update release-plan workflows ([@mansona](https://github.com/mansona))
+* [#3](https://github.com/ef4/lerna-changelog/pull/3) running npm init release-plan-setup ([@mansona](https://github.com/mansona))
+* [#2](https://github.com/ef4/lerna-changelog/pull/2) Update changelog and readme badges ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
 
 ## Changes inherited from upstream after reset
 
