@@ -21,7 +21,8 @@ export function listTagNames(): string[] {
  * The latest reachable tag starting from HEAD
  */
 export function lastTag(): string {
-  return execa.sync("git", ["describe", "--abbrev=0", "--tags"]).stdout;
+  const ref = execa.sync("git", ["rev-list", "--tags", "--max-count=1"]).stdout;
+  return execa.sync("git", ["describe", "--tags", ref]).stdout;
 }
 
 export interface CommitListItem {
