@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
-const execa = require("execa");
 const hostedGitInfo = require("hosted-git-info");
+const { getPackagesSync } = require("@manypkg/get-packages");
 
 import ConfigurationError from "./configuration-error";
 import { getRootPath } from "./git";
@@ -15,7 +15,7 @@ export interface Configuration {
   nextVersion: string | undefined;
   nextVersionFromMetadata?: boolean;
   wildcardLabel?: string;
-  packages: [{ name: string; path: string }] | [];
+  packages: { name: string; path: string }[];
 }
 
 export interface ConfigLoaderOptions {
@@ -28,32 +28,47 @@ export function load(options: ConfigLoaderOptions = {}): Configuration {
   return fromPath(rootPath, options);
 }
 
-function getPackages(rootPath: string): [{ name: string; path: string }] | [] {
-  let packages = [];
+interface PackageJson {
+  type: boolean;
+  name: string;
+}
 
-  if (fs.existsSync(path.join(rootPath, "package-lock.json"))) {
-    const result = execa.sync("npm", ["query", ".workspace"], { cwd: rootPath });
-    const workspaceQuery = JSON.parse(result.stdout);
+interface Package {
+  dir: string;
+  relativeDir: string;
+  packageJson: PackageJson;
+}
 
-    packages = workspaceQuery.map((item: any) => ({ name: item.name, path: item.path }));
-  } else if (fs.existsSync(path.join(rootPath, "pnpm-lock.yaml"))) {
-    const result = execa.sync(`pnpm`, ["m", "ls", "--json", "--depth=-1"], { cwd: rootPath });
-    const workspaceJson = JSON.parse(result.stdout);
+interface PackagesResult {
+  tool: {
+    type: "pnpm" | "yarn" | "npm";
+  };
+  packages: Package[];
+  rootPackage: Package;
+}
 
-    packages = workspaceJson
-      .filter((item: any) => item.name && item.path)
-      .map((item: any) => ({ name: item.name, path: item.path }));
-  } else if (fs.existsSync(path.join(rootPath, "yarn.lock"))) {
-    const result = execa.sync(`yarn`, ["--silent", "workspaces", "info", "--json"], { cwd: rootPath });
-    const workspaceMap = JSON.parse(result.stdout);
+function getPackages(rootPath: string): { name: string; path: string }[] {
+  try {
+    let { packages } = getPackagesSync(rootPath) as PackagesResult;
 
-    packages = Object.keys(workspaceMap).map(key => ({
-      name: key,
-      path: path.resolve(rootPath, workspaceMap[key].location),
+    return packages.map(pkg => ({
+      name: pkg.packageJson.name,
+      path: pkg.dir,
     }));
+  } catch (e) {
+    // Pre-existing lerna-changelog behavior returns []
+    // when something goes wrong with package discovery.
+    // The error is logged here, just in case it's helpful for folks
+    // to debug their projects.
+    //
+    // Mainly:
+    // - packages must have a name when not using private=true
+    // - at least one package.json must exist
+    //
+    // In practice, folks shouldn't see this error at all
+    console.error(e);
+    return [];
   }
-
-  return packages;
 }
 
 export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): Configuration {
