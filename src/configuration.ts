@@ -48,9 +48,27 @@ interface PackagesResult {
 }
 
 function getPackages(rootPath: string): { name: string; path: string }[] {
-  let { packages } = getPackagesSync(rootPath) as PackagesResult;
+  try {
+    let { packages } = getPackagesSync(rootPath) as PackagesResult;
 
-  return packages.map(pkg => ({ name: pkg.packageJson.name, path: pkg.dir }));
+    return packages.map(pkg => ({
+      name: pkg.packageJson.name,
+      path: pkg.dir,
+    }));
+  } catch (e) {
+    // Pre-existing lerna-changelog behavior returns []
+    // when something goes wrong with package discovery.
+    // The error is logged here, just in case it's helpful for folks
+    // to debug their projects.
+    //
+    // Mainly:
+    // - packages must have a name
+    // - at least one package.json must exist
+    //
+    // In practice, folks shouldn't see this error at all
+    console.error(e);
+    return [];
+  }
 }
 
 export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): Configuration {
