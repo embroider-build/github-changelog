@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
-const execa = require("execa");
 const hostedGitInfo = require("hosted-git-info");
+const { getPackagesSync } = require('@manypkg/get-packages');
 
 import ConfigurationError from "./configuration-error";
 import { getRootPath } from "./git";
@@ -28,32 +28,29 @@ export function load(options: ConfigLoaderOptions = {}): Configuration {
   return fromPath(rootPath, options);
 }
 
-function getPackages(rootPath: string): [{ name: string; path: string }] | [] {
-  let packages = [];
+interface PackageJson {
+  type: boolean
+  name: string;
+}
 
-  if (fs.existsSync(path.join(rootPath, "package-lock.json"))) {
-    const result = execa.sync("npm", ["query", ".workspace"], { cwd: rootPath });
-    const workspaceQuery = JSON.parse(result.stdout);
+interface Package {
+  dir: string;
+  relativeDir: string;
+  packageJson: PackageJson;
+}
 
-    packages = workspaceQuery.map((item: any) => ({ name: item.name, path: item.path }));
-  } else if (fs.existsSync(path.join(rootPath, "pnpm-lock.yaml"))) {
-    const result = execa.sync(`pnpm`, ["m", "ls", "--json", "--depth=-1"], { cwd: rootPath });
-    const workspaceJson = JSON.parse(result.stdout);
+interface PackagesResult {
+  tool: {
+    type: 'pnpm' | 'yarn' | 'npm';
+  };
+  packages: Package[]
+  rootPackage: Package;
+}
 
-    packages = workspaceJson
-      .filter((item: any) => item.name && item.path)
-      .map((item: any) => ({ name: item.name, path: item.path }));
-  } else if (fs.existsSync(path.join(rootPath, "yarn.lock"))) {
-    const result = execa.sync(`yarn`, ["--silent", "workspaces", "info", "--json"], { cwd: rootPath });
-    const workspaceMap = JSON.parse(result.stdout);
+function getPackages(rootPath: string): { name: string; path: string }[] {
+  let { packages } = getPackagesSync(rootPath) as PackagesResult;
 
-    packages = Object.keys(workspaceMap).map(key => ({
-      name: key,
-      path: path.resolve(rootPath, workspaceMap[key].location),
-    }));
-  }
-
-  return packages;
+  return packages.map((pkg) => ({ name: pkg.packageJson.name, path: pkg.dir }));
 }
 
 export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): Configuration {
