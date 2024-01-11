@@ -62,7 +62,7 @@ function getPackages(rootPath: string): { name: string; path: string }[] {
     // to debug their projects.
     //
     // Mainly:
-    // - packages must have a name
+    // - packages must have a name when not using private=true
     // - at least one package.json must exist
     //
     // In practice, folks shouldn't see this error at all
