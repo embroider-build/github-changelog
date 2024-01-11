@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const hostedGitInfo = require("hosted-git-info");
-const { getPackagesSync } = require('@manypkg/get-packages');
+const { getPackagesSync } = require("@manypkg/get-packages");
 
 import ConfigurationError from "./configuration-error";
 import { getRootPath } from "./git";
@@ -29,7 +29,7 @@ export function load(options: ConfigLoaderOptions = {}): Configuration {
 }
 
 interface PackageJson {
-  type: boolean
+  type: boolean;
   name: string;
 }
 
@@ -41,16 +41,16 @@ interface Package {
 
 interface PackagesResult {
   tool: {
-    type: 'pnpm' | 'yarn' | 'npm';
+    type: "pnpm" | "yarn" | "npm";
   };
-  packages: Package[]
+  packages: Package[];
   rootPackage: Package;
 }
 
 function getPackages(rootPath: string): { name: string; path: string }[] {
   let { packages } = getPackagesSync(rootPath) as PackagesResult;
 
-  return packages.map((pkg) => ({ name: pkg.packageJson.name, path: pkg.dir }));
+  return packages.map(pkg => ({ name: pkg.packageJson.name, path: pkg.dir }));
 }
 
 export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): Configuration {
