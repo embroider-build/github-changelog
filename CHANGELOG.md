@@ -1,4 +1,19 @@
 # Changelog
+## Release (2024-01-11)
+
+@ef4/lerna-changelog 2.1.0 (minor)
+
+#### :rocket: Enhancement
+* `@ef4/lerna-changelog`
+  * [#8](https://github.com/ef4/lerna-changelog/pull/8) Robustly discover packages for any tool ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :house: Internal
+* `@ef4/lerna-changelog`
+  * [#10](https://github.com/ef4/lerna-changelog/pull/10) update release-plan setup ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 ## Release (2023-12-04)
 
 @ef4/lerna-changelog 2.0.0 (major)
