@@ -15,7 +15,7 @@ export interface Configuration {
   nextVersion: string | undefined;
   nextVersionFromMetadata?: boolean;
   wildcardLabel?: string;
-  packages: [{ name: string; path: string }] | [];
+  packages: { name: string; path: string }[];
 }
 
 export interface ConfigLoaderOptions {
