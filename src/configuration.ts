@@ -110,11 +110,11 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
   }
 
   if (!wildcardLabel) {
-    wildcardLabel = `_github-changelog_unlabeled_`;
+    wildcardLabel = `_github-changelog_unlabelled_`;
   }
 
   if (wildcardLabel && !labels[wildcardLabel]) {
-    labels[wildcardLabel] = "️:present: Additional updates";
+    labels[wildcardLabel] = ":question: Unlabelled";
   }
 
   if (!ignoreCommitters) {
