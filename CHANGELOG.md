@@ -1,4 +1,14 @@
 # Changelog
+## Release (2024-02-16)
+
+@ef4/lerna-changelog 2.2.0 (minor)
+
+#### :rocket: Enhancement
+* `@ef4/lerna-changelog`
+  * [#11](https://github.com/embroider-build/github-changelog/pull/11) Add a default implementation for unlabelled ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
 ## Release (2024-01-11)
 
 @ef4/lerna-changelog 2.1.0 (minor)

@@ -2,20 +2,16 @@
   "solution": {
     "@ef4/lerna-changelog": {
       "impact": "minor",
-      "oldVersion": "2.0.0",
-      "newVersion": "2.1.0",
+      "oldVersion": "2.1.0",
+      "newVersion": "2.2.0",
       "constraints": [
         {
           "impact": "minor",
           "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-01-11)\n\n@ef4/lerna-changelog 2.1.0 (minor)\n\n#### :rocket: Enhancement\n* `@ef4/lerna-changelog`\n  * [#8](https://github.com/ef4/lerna-changelog/pull/8) Robustly discover packages for any tool ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :house: Internal\n* `@ef4/lerna-changelog`\n  * [#10](https://github.com/ef4/lerna-changelog/pull/10) update release-plan setup ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2024-02-16)\n\n@ef4/lerna-changelog 2.2.0 (minor)\n\n#### :rocket: Enhancement\n* `@ef4/lerna-changelog`\n  * [#11](https://github.com/embroider-build/github-changelog/pull/11) Add a default implementation for unlabelled ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
