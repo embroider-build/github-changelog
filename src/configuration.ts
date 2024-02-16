@@ -109,6 +109,10 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
     };
   }
 
+  if (!wildcardLabel) {
+    wildcardLabel = `_github-changelog_unlabeled_`;
+  }
+
   if (wildcardLabel && !labels[wildcardLabel]) {
     labels[wildcardLabel] = "️:present: Additional updates";
   }
