@@ -1,17 +1,17 @@
 {
   "solution": {
     "@ef4/lerna-changelog": {
-      "impact": "minor",
-      "oldVersion": "2.1.0",
-      "newVersion": "2.2.0",
+      "impact": "patch",
+      "oldVersion": "2.2.0",
+      "newVersion": "2.2.1",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-02-16)\n\n@ef4/lerna-changelog 2.2.0 (minor)\n\n#### :rocket: Enhancement\n* `@ef4/lerna-changelog`\n  * [#11](https://github.com/embroider-build/github-changelog/pull/11) Add a default implementation for unlabelled ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2024-02-16)\n\n@ef4/lerna-changelog 2.2.1 (patch)\n\n#### :bug: Bug Fix\n* `@ef4/lerna-changelog`\n  * [#14](https://github.com/embroider-build/github-changelog/pull/14) remove invisible character in unlabelled text ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
