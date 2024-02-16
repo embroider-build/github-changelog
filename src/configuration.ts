@@ -114,7 +114,7 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
   }
 
   if (wildcardLabel && !labels[wildcardLabel]) {
-    labels[wildcardLabel] = "️:present: Additional updates";
+    labels[wildcardLabel] = ":present: Additional updates";
   }
 
   if (!ignoreCommitters) {
