@@ -1,10 +1,10 @@
 # Release Process
 
-Releases in this repo are mostly automated using [release-plan](https://github.com/embroider-build/release-plan/). Once you label all your PRs correctly (see below) you will have an automatically generated PR that updates your CHANGELOG.md file and a `.release-plan.json` that is used prepare the release once the PR is merged.
+Releases in this repo are mostly automated using [release-plan](https://github.com/embroider-build/release-plan/). Once you label all your PRs correctly (see below) you will have an automatically generated PR that updates your CHANGELOG.md file and a `.release-plan.json` that is used to prepare the release once the PR is merged.
 
 ## Preparation
 
-Since the majority of the actual release process is automated, the remaining tasks before releasing are:
+Since the majority of the actual release process is automated, the remaining tasks before releasing are: 
 
 -  correctly labeling **all** pull requests that have been merged since the last release
 -  updating pull request titles so they make sense to our users
