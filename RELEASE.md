@@ -4,7 +4,7 @@ Releases in this repo are mostly automated using [release-plan](https://github.c
 
 ## Preparation
 
-Since the majority of the actual release process is automated, the remaining tasks before releasing are: 
+Since the majority of the actual release process is automated, the remaining tasks before releasing are:
 
 -  correctly labeling **all** pull requests that have been merged since the last release
 -  updating pull request titles so they make sense to our users
@@ -24,4 +24,4 @@ When reviewing merged PR's the labels to be used are:
 
 ## Release
 
-Once the prep work is completed, the actual release is straight forward: you just need to merge the open [Plan Release](https://github.com/ef4/lerna-changelog/pulls?q=is%3Apr+is%3Aopen+%22Prepare+Release%22+in%3Atitle) PR
+Once the prep work is completed, the actual release is straight forward: you just need to merge the open [Plan Release](https://github.com/embroider-build/github-changelog/pulls?q=is%3Apr+is%3Aopen+%22Prepare+Release%22+in%3Atitle) PR

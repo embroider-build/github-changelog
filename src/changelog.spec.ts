@@ -105,7 +105,7 @@ describe("Changelog", () => {
         },
       };
       const issuesCache = {
-        "https://api.github.com/repos/lerna/lerna-changelog/issues/2": {
+        "https://api.github.com/repos/embroider-build/github-changelog/issues/2": {
           body: {
             number: 2,
             title: "This is the commit title for the issue (#2)",

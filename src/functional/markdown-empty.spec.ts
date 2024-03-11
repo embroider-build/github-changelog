@@ -70,35 +70,35 @@ const usersCache = {
   },
 };
 const issuesCache = {
-  "https://api.github.com/repos/lerna/lerna-changelog/issues/1": {
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/1": {
     body: {
       number: 1,
       title: "feat: May the force be with you",
       labels: [{ name: "Type: New Feature" }],
       pull_request: {
-        html_url: "https://github.com/lerna/lerna-changelog/pull/1",
+        html_url: "https://github.com/embroider-build/github-changelog/pull/1",
       },
       user: usersCache["https://api.github.com/users/luke"],
     },
   },
-  "https://api.github.com/repos/lerna/lerna-changelog/issues/2": {
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/2": {
     body: {
       number: 2,
       title: "chore: Terminate her... immediately!",
       labels: [{ name: "Type: Breaking Change" }],
       pull_request: {
-        html_url: "https://github.com/lerna/lerna-changelog/pull/2",
+        html_url: "https://github.com/embroider-build/github-changelog/pull/2",
       },
       user: usersCache["https://api.github.com/users/gtarkin"],
     },
   },
-  "https://api.github.com/repos/lerna/lerna-changelog/issues/3": {
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/3": {
     body: {
       number: 3,
       title: "fix: Get me the rebels base!",
       labels: [{ name: "Type: Bug" }],
       pull_request: {
-        html_url: "https://github.com/lerna/lerna-changelog/pull/3",
+        html_url: "https://github.com/embroider-build/github-changelog/pull/3",
       },
       user: usersCache["https://api.github.com/users/vader"],
     },

@@ -56,7 +56,7 @@ function getPackages(rootPath: string): { name: string; path: string }[] {
       path: pkg.dir,
     }));
   } catch (e) {
-    // Pre-existing lerna-changelog behavior returns []
+    // Pre-existing lerna-changelog (from before the fork) behavior returns []
     // when something goes wrong with package discovery.
     // The error is logged here, just in case it's helpful for folks
     // to debug their projects.

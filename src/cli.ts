@@ -12,7 +12,7 @@ export async function run() {
   const yargs = require("yargs");
 
   const argv = yargs
-    .usage("lerna-changelog [options]")
+    .usage("github-changelog [options]")
     .options({
       from: {
         type: "string",
@@ -50,14 +50,14 @@ export async function run() {
       },
     })
     .example(
-      "lerna-changelog",
+      "github-changelog",
       'create a changelog for the changes after the latest available tag, under "Unreleased" section'
     )
     .example(
-      "lerna-changelog --from=0.1.0 --to=0.3.0",
+      "github-changelog --from=0.1.0 --to=0.3.0",
       "create a changelog for the changes in all tags within the given range"
     )
-    .epilog("For more information, see https://github.com/lerna/lerna-changelog")
+    .epilog("For more information, see https://github.com/embroider-build/github-changelog")
     .wrap(Math.min(100, yargs.terminalWidth()))
     .parse();
 

@@ -1,19 +1,15 @@
-I'm publishing and maintaining this fork based on @NathanPJF's PR [here](https://github.com/lerna/lerna-changelog/pull/134), since upstream seems to have no activity. It's available on NPM as `@ef4/lerna-changelog`. - ef4
+# github-changelog
 
-lerna-changelog
-==============================================================================
-
-[![CI](https://github.com/ef4/lerna-changelog/actions/workflows/ci.yml/badge.svg)](https://github.com/ef4/lerna-changelog/actions/workflows/ci.yml)
-![npm](https://img.shields.io/npm/dw/%40ef4%2Flerna-changelog)
+[![CI](https://github.com/embroider-build/github-changelog/actions/workflows/ci.yml/badge.svg)](https://github.com/embroider-build/github-changelog/actions/workflows/ci.yml)
+![npm](https://img.shields.io/npm/dw/%40ef4%2Fgithub-changelog)
 
 PR-based changelog generator with monorepo support
 
 
-Usage
-------------------------------------------------------------------------------
+## Usage
 
 ```bash
-npx lerna-changelog
+npx github-changelog
 ```
 
 ```md
@@ -30,7 +26,7 @@ npx lerna-changelog
 - [@careful-coder](https://github.com/careful-coder)
 ```
 
-By default `lerna-changelog` will show all pull requests that have been merged
+By default `github-changelog` will show all pull requests that have been merged
 since the latest tagged commit in the repository. That is however only true for
 pull requests with certain labels applied. The labels that are supported by
 default are:
@@ -45,16 +41,16 @@ You can also use the `--from` and `--to` options to view a different
 range of pull requests:
 
 ```bash
-npx lerna-changelog --from=v1.0.0 --to=v2.0.0
+npx github-changelog --from=v1.0.0 --to=v2.0.0
 ```
 
 ### Monorepo support
 
-If you have a packages folder and your projects in subfolders of that folder `lerna-changelog` will detect it and include the package names in the changelog for the relevant changes.
+If you have a packages folder and your projects in subfolders of that folder `github-changelog` will detect it and include the package names in the changelog for the relevant changes.
 
 ### GitHub Token
 
-Since `lerna-changelog` interacts with the GitHub API you may run into rate
+Since `github-changelog` interacts with the GitHub API you may run into rate
 limiting issues which can be resolved by supplying a "personal access token":
 
 ```
@@ -66,10 +62,9 @@ for the GitHub API with the `repo` scope for private repositories or just
 `public_repo` scope for public repositories.
 
 
-Configuration
-------------------------------------------------------------------------------
+## Configuration
 
-You can configure `lerna-changelog` in various ways. The easiest way is by
+You can configure `github-changelog` in various ways. The easiest way is by
 adding a `changelog` key to the `package.json` file of your project:
 
 ```json5
@@ -143,7 +138,6 @@ You can overwrite the default heading by including the `wildcardLabel` value in 
 ```
 
 
-License
-------------------------------------------------------------------------------
+## License
 
-`lerna-changelog` is released under the [MIT License](LICENSE).
+`github-changelog` is released under the [MIT License](LICENSE).
