@@ -196,79 +196,79 @@ const usersCache = {
   },
 };
 const issuesCache = {
-  "https://api.github.com/repos/lerna/lerna-changelog/issues/1": {
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/1": {
     body: {
       number: 1,
       title: "feat: May the force be with you",
       labels: [{ name: "Type: New Feature" }],
       pull_request: {
-        html_url: "https://github.com/lerna/lerna-changelog/pull/1",
+        html_url: "https://github.com/embroider-build/github-changelog/pull/1",
       },
       user: usersCache["https://api.github.com/users/luke"].body,
     },
   },
-  "https://api.github.com/repos/lerna/lerna-changelog/issues/2": {
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/2": {
     body: {
       number: 2,
       title: "chore: Terminate her... immediately!",
       labels: [{ name: "Type: Breaking Change" }],
       pull_request: {
-        html_url: "https://github.com/lerna/lerna-changelog/pull/2",
+        html_url: "https://github.com/embroider-build/github-changelog/pull/2",
       },
       user: usersCache["https://api.github.com/users/gtarkin"].body,
     },
   },
-  "https://api.github.com/repos/lerna/lerna-changelog/issues/3": {
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/3": {
     body: {
       number: 3,
       title: "fix: Get me the rebels base!",
       labels: [{ name: "Type: Bug" }],
       pull_request: {
-        html_url: "https://github.com/lerna/lerna-changelog/pull/3",
+        html_url: "https://github.com/embroider-build/github-changelog/pull/3",
       },
       user: usersCache["https://api.github.com/users/vader"].body,
     },
   },
-  "https://api.github.com/repos/lerna/lerna-changelog/issues/4": {
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/4": {
     body: {
       number: 4,
       title: "fix: RRRAARRWHHGWWR",
       labels: [{ name: "Type: Bug" }, { name: "Type: Maintenance" }],
       pull_request: {
-        html_url: "https://github.com/lerna/lerna-changelog/pull/4",
+        html_url: "https://github.com/embroider-build/github-changelog/pull/4",
       },
       user: usersCache["https://api.github.com/users/chewbacca"].body,
     },
   },
-  "https://api.github.com/repos/lerna/lerna-changelog/issues/5": {
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/5": {
     body: {
       number: 5,
       title: "feat: I am your father",
       labels: [{ name: "Type: New Feature" }],
       pull_request: {
-        html_url: "https://github.com/lerna/lerna-changelog/pull/5",
+        html_url: "https://github.com/embroider-build/github-changelog/pull/5",
       },
       user: usersCache["https://api.github.com/users/vader"].body,
     },
   },
-  "https://api.github.com/repos/lerna/lerna-changelog/issues/6": {
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/6": {
     body: {
       number: 6,
       title: "refactor: he is my brother",
       labels: [{ name: "Type: Enhancement" }],
       pull_request: {
-        html_url: "https://github.com/lerna/lerna-changelog/pull/6",
+        html_url: "https://github.com/embroider-build/github-changelog/pull/6",
       },
       user: usersCache["https://api.github.com/users/princess-leia"].body,
     },
   },
-  "https://api.github.com/repos/lerna/lerna-changelog/issues/7": {
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/7": {
     body: {
       number: 7,
       title: "feat: that is not how the Force works!",
       labels: [{ name: "Type: New Feature" }, { name: "Type: Enhancement" }],
       pull_request: {
-        html_url: "https://github.com/lerna/lerna-changelog/pull/7",
+        html_url: "https://github.com/embroider-build/github-changelog/pull/7",
       },
       user: usersCache["https://api.github.com/users/han-solo"].body,
     },

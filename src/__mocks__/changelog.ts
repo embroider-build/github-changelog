@@ -4,7 +4,7 @@ const Changelog = jest.requireActual("../changelog").default;
 
 const defaultConfig = {
   rootPath: "../",
-  repo: "lerna/lerna-changelog",
+  repo: "embroider-build/github-changelog",
   labels: {
     "Type: New Feature": ":rocket: New Feature",
     "Type: Breaking Change": ":boom: Breaking Change",
