@@ -1,17 +1,17 @@
 {
   "solution": {
-    "@ef4/lerna-changelog": {
-      "impact": "patch",
-      "oldVersion": "2.2.0",
-      "newVersion": "2.2.1",
+    "github-changelog": {
+      "impact": "major",
+      "oldVersion": "0.0.0",
+      "newVersion": "1.0.0",
       "constraints": [
         {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-02-16)\n\n@ef4/lerna-changelog 2.2.1 (patch)\n\n#### :bug: Bug Fix\n* `@ef4/lerna-changelog`\n  * [#14](https://github.com/embroider-build/github-changelog/pull/14) remove invisible character in unlabelled text ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2024-03-12)\n\ngithub-changelog 1.0.0 (major)\n\n#### :boom: Breaking Change\n* `github-changelog`\n  * [#17](https://github.com/embroider-build/github-changelog/pull/17) swap everything to be github-changelog ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }

@@ -1,4 +1,15 @@
 # Changelog
+
+## Release (2024-03-12)
+
+github-changelog 1.0.0 (major)
+
+#### :boom: Breaking Change
+* `github-changelog`
+  * [#17](https://github.com/embroider-build/github-changelog/pull/17) swap everything to be github-changelog ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
 ## Release (2024-02-16)
 
 @ef4/lerna-changelog 2.2.1 (patch)
