@@ -1,7 +1,7 @@
 # github-changelog
 
 [![CI](https://github.com/embroider-build/github-changelog/actions/workflows/ci.yml/badge.svg)](https://github.com/embroider-build/github-changelog/actions/workflows/ci.yml)
-![npm](https://img.shields.io/npm/dw/%40ef4%2Fgithub-changelog)
+![npm](https://img.shields.io/npm/dw/github-changelog)
 
 PR-based changelog generator with monorepo support
 
