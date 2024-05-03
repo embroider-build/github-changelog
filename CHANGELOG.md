@@ -1,5 +1,18 @@
 # Changelog
 
+## Release (2024-05-03)
+
+github-changelog 1.0.1 (patch)
+
+#### :bug: Bug Fix
+* `github-changelog`
+  * [#22](https://github.com/embroider-build/github-changelog/pull/22) Apply ignoreCommitters config to PR creators ([@nickschot](https://github.com/nickschot))
+  * [#19](https://github.com/embroider-build/github-changelog/pull/19) fix npm badge to point at the right package ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Nick Schot ([@nickschot](https://github.com/nickschot))
+
 ## Release (2024-03-12)
 
 github-changelog 1.0.0 (major)
