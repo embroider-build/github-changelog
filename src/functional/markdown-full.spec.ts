@@ -8,6 +8,18 @@ jest.mock("../fetch");
 
 const listOfCommits: CommitListItem[] = [
   {
+    sha: "a0000017",
+    refName: "",
+    summary: "Merge pull request #8 from my-dependency",
+    date: "2017-01-01",
+  },
+  {
+    sha: "a0000016",
+    refName: "",
+    summary: "chore: Update dependency",
+    date: "2017-01-01",
+  },
+  {
     sha: "a0000015",
     refName: "",
     summary: "chore: making of episode viii",
@@ -117,6 +129,8 @@ const listOfPackagesForEachCommit: { [id: string]: string[] } = {
   a0000013: ["packages/return-of-the-jedi/package.json"],
   a0000014: ["packages/the-force-awakens/mission.js", "packages/rogue-one/mission.js"],
   a0000015: ["packages/untitled/script.md"],
+  a0000016: ["packages/return-of-the-jedi/package.json"],
+  a0000017: ["packages/return-of-the-jedi/package.json"],
 };
 
 const listOfFileForEachCommit: { [id: string]: string[] } = {
@@ -135,6 +149,8 @@ const listOfFileForEachCommit: { [id: string]: string[] } = {
   a0000013: ["return-of-the-jedi/package.json"],
   a0000014: ["the-force-awakens/mission.js", "rogue-one/mission.js"],
   a0000015: ["untitled/script.md"],
+  a0000016: ["packages/return-of-the-jedi/package.json"],
+  a0000017: ["packages/return-of-the-jedi/package.json"],
 };
 
 const usersCache = {
@@ -192,6 +208,13 @@ const usersCache = {
       login: "c-3po",
       html_url: "https://github.com/c-3po",
       name: "C-3PO",
+    },
+  },
+  "https://api.github.com/users/bot-user": {
+    body: {
+      login: "bot-user",
+      html_url: "https://github.com/bot-user",
+      name: "Bot User",
     },
   },
 };
@@ -273,6 +296,18 @@ const issuesCache = {
       user: usersCache["https://api.github.com/users/han-solo"].body,
     },
   },
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/8": {
+    body: {
+      number: 8,
+      title: "This is the commit title for the issue (#8)",
+      labels: [{ name: "Type: Maintenance" }, { name: "Status: In Progress" }],
+      user: {
+        login: "bot-user",
+        html_url: "https://github.com/bot-user",
+        name: "Bot User",
+      },
+    },
+  },
 };
 
 describe("createMarkdown", () => {
@@ -282,6 +317,31 @@ describe("createMarkdown", () => {
 
   afterEach(() => {
     jest.resetAllMocks();
+  });
+
+  describe("ignore config", () => {
+    it("ignores PRs from bot users even if they were not the (merge) committer", async () => {
+      require("../git").changedPaths.mockImplementation((sha: string) => {
+        return listOfPackagesForEachCommit[sha];
+      });
+      require("../git").lastTag.mockImplementation(() => "v8.0.0");
+      require("../git").listCommits.mockImplementation(() => listOfCommits);
+      require("../git").listTagNames.mockImplementation(() => listOfTags);
+
+      require("../fetch").__setMockResponses({
+        ...usersCache,
+        ...issuesCache,
+      });
+
+      const MockedChangelog = require("../changelog").default;
+      const changelog = new MockedChangelog({
+        ignoreCommitters: ["bot-user"],
+      });
+
+      const markdown = await changelog.createMarkdown();
+
+      expect(markdown).toMatchSnapshot();
+    });
   });
 
   describe("single tags", () => {

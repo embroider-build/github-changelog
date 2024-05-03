@@ -203,7 +203,10 @@ export default class Changelog {
           releaseMap[currentTag] = { name: currentTag, date, commits: [] };
         }
 
-        releaseMap[currentTag].commits.push(commit);
+        let prUserLogin = commit.githubIssue?.user.login;
+        if (prUserLogin && !this.ignoreCommitter(prUserLogin)) {
+          releaseMap[currentTag].commits.push(commit);
+        }
       }
     }
 
