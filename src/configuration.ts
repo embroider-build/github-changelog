@@ -51,7 +51,9 @@ function getPackages(rootPath: string): { name: string; path: string }[] {
   try {
     let { packages } = getPackagesSync(rootPath) as PackagesResult;
 
-    return packages.map(pkg => ({
+    let publishablePackages = packages.filter(pkg => !(pkg.packageJson as any)["private"]);
+
+    return publishablePackages.map(pkg => ({
       name: pkg.packageJson.name,
       path: pkg.dir,
     }));
