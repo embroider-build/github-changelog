@@ -1,5 +1,5 @@
 const pMap = require("p-map");
-const { resolve } = require("path");
+const { resolve, sep } = require("path");
 
 import progressBar from "./progress-bar";
 import { Configuration } from "./configuration";
@@ -89,10 +89,8 @@ export default class Changelog {
       // Sometimes multiple packages may exist with the same prefix:
       // ember-fastboot
       // ember-fastboot-2-fast-2-furious
-      //
-      // in this case, we can't short circuit with length === 1, but we can do a longer match
       const foundPackage = this.config.packages.find(p => {
-        let withSlash = p.path.endsWith("/") ? p.path : `${p.path}/`;
+        let withSlash = p.path.endsWith(sep) ? p.path : `${p.path}${sep}`;
 
         return absolutePath.startsWith(withSlash);
       });
