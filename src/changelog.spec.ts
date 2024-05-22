@@ -54,6 +54,31 @@ describe("Changelog", () => {
     }
   });
 
+  describe("packageFromPath with similarly named packages", () => {
+    const MockedChangelog = require("./changelog").default;
+
+    const TESTS = [
+      ["", ""],
+      ["/ember-fastboot/package.json", "ember-fastboot"],
+      ["/ember-fastboot-2-fast-2-furious/package.json", "ember-fastboot-2-fast-2-furious"],
+      ["/ember-fastboot-tokyo-drift/package.json", "ember-fastboot-tokyo-drift"],
+    ];
+
+    for (let [input, expected] of TESTS) {
+      it(`${input} -> ${expected}`, () => {
+        const changelog = new MockedChangelog({
+          rootPath: "/",
+          packages: [
+            { name: "ember-fastboot", path: "/ember-fastboot" },
+            { name: "ember-fastboot-2-fast-2-furious", path: "/ember-fastboot-2-fast-2-furious" },
+            { name: "ember-fastboot-tokyo-drift", path: "/ember-fastboot-tokyo-drift" },
+          ],
+        });
+        expect(changelog.packageFromPath(input)).toEqual(expected);
+      });
+    }
+  });
+
   describe("getCommitInfos", () => {
     beforeEach(() => {
       require("./fetch").__resetMockResponses();
