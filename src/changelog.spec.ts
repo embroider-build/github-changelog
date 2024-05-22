@@ -59,10 +59,8 @@ describe("Changelog", () => {
 
     const TESTS = [
       ["", ""],
-      ["/ember-fastboot", "ember-fastboot"],
-      ["/ember-fastboot-2-fast-2-furious", "ember-fastboot-2-fast-2-furious"],
+      ["/ember-fastboot/package.json", "ember-fastboot"],
       ["/ember-fastboot-2-fast-2-furious/package.json", "ember-fastboot-2-fast-2-furious"],
-      ["/ember-fastboot-tokyo-drift", "ember-fastboot-tokyo-drift"],
       ["/ember-fastboot-tokyo-drift/package.json", "ember-fastboot-tokyo-drift"],
     ];
 

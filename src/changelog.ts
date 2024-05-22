@@ -91,21 +91,17 @@ export default class Changelog {
       // ember-fastboot-2-fast-2-furious
       //
       // in this case, we can't short circuit with length === 1, but we can do a longer match
-      const packageCandidates = this.config.packages.filter(p => absolutePath.startsWith(p.path));
+      const foundPackage = this.config.packages.find(p => {
+        let withSlash = p.path.endsWith("/") ? p.path : `${p.path}/`;
 
-      if (packageCandidates.length === 1) {
-        return packageCandidates[0].name;
+        return absolutePath.startsWith(withSlash);
+      });
+
+      if (foundPackage) {
+        return foundPackage.name;
       }
 
-      let longestMatch = "";
-
-      for (let pkg of packageCandidates) {
-        if (pkg.name.length > longestMatch.length) {
-          longestMatch = pkg.name;
-        }
-      }
-
-      return longestMatch; // may be empty if 0 candidates exist
+      return "";
     } else {
       // if we did not find any packages then default to
       const parts = path.split("/");
