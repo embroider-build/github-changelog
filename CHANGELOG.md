@@ -1,5 +1,18 @@
 # Changelog
 
+## Release (2024-05-22)
+
+github-changelog 1.0.2 (patch)
+
+#### :bug: Bug Fix
+* `github-changelog`
+  * [#23](https://github.com/embroider-build/github-changelog/pull/23) only process commits on the current branch ([@mansona](https://github.com/mansona))
+  * [#24](https://github.com/embroider-build/github-changelog/pull/24) Fix issue with similarly named packages matching the wrong package in the generated changelog. ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2024-05-03)
 
 github-changelog 1.0.1 (patch)
