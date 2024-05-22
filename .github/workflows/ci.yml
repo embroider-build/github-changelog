@@ -11,13 +11,16 @@ on:
 
 jobs:
   tests:
-    name: "Tests on Node.js ${{ matrix.node-version }}"
-    runs-on: ubuntu-latest
+    name: "Tests on Node.js ${{ matrix.node-version }} - ${{ matrix.os }}"
+    runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: false
       matrix:
         node-version: ["18", "20", "22"]
+        os:
+          - 'ubuntu-latest'
+          - 'windows-latest'
 
     steps:
       - uses: actions/checkout@v4
@@ -28,4 +31,4 @@ jobs:
           cache: pnpm
       - run: pnpm install
       - run: pnpm build
-      - run: GITHUB_API_URL= npm test
+      - run: GITHUB_API_URL= pnpm test
