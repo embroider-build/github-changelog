@@ -55,6 +55,7 @@ export function listCommits(from: string, to: string = ""): CommitListItem[] {
       "--oneline",
       "--pretty=hash<%h> ref<%D> message<%s> date<%cd>",
       "--date=short",
+      "--first-parent",
       `${from}..${to}`,
     ])
     .stdout.split("\n")
