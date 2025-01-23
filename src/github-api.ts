@@ -28,14 +28,17 @@ export interface Options {
   repo: string;
   rootPath: string;
   cacheDir?: string;
+  github?: string;
 }
 
 export default class GithubAPI {
   private cacheDir: string | undefined;
   private auth: string;
+  private github: string;
 
   constructor(config: Options) {
     this.cacheDir = config.cacheDir && path.join(config.rootPath, config.cacheDir, "github");
+    this.github = config.github || "github.com";
     this.auth = this.getAuthToken();
     if (!this.auth) {
       throw new ConfigurationError("Must provide GITHUB_AUTH");
@@ -43,15 +46,15 @@ export default class GithubAPI {
   }
 
   public getBaseIssueUrl(repo: string): string {
-    return `https://github.com/${repo}/issues/`;
+    return `https://${this.github}/${repo}/issues/`;
   }
 
   public async getIssueData(repo: string, issue: string): Promise<GitHubIssueResponse> {
-    return this._fetch(`https://api.github.com/repos/${repo}/issues/${issue}`);
+    return this._fetch(`https://api.${this.github}/repos/${repo}/issues/${issue}`);
   }
 
   public async getUserData(login: string): Promise<GitHubUserResponse> {
-    return this._fetch(`https://api.github.com/users/${login}`);
+    return this._fetch(`https://api.${this.github}/users/${login}`);
   }
 
   private async _fetch(url: string): Promise<any> {

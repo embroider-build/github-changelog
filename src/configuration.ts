@@ -8,6 +8,7 @@ import { getRootPath } from "./git";
 
 export interface Configuration {
   repo: string;
+  github?: string;
   rootPath: string;
   labels: { [key: string]: string };
   ignoreCommitters: string[];
@@ -80,7 +81,7 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
   }
 
   // Step 2: fill partial config with defaults
-  let { repo, nextVersion, labels, cacheDir, ignoreCommitters, wildcardLabel } = config;
+  let { repo, nextVersion, labels, cacheDir, ignoreCommitters, wildcardLabel, github } = config;
 
   const packages = getPackages(rootPath);
 
@@ -138,6 +139,7 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
     cacheDir,
     wildcardLabel,
     packages,
+    github,
   };
 }
 

@@ -84,6 +84,8 @@ The supported options are:
 - `repo`: Your "org/repo" on GitHub
   (automatically inferred from the `package.json` file)
 
+- `github`: the github domain, default: github.com
+
 - `nextVersion`: Title for unreleased commits
   (e.g. `Unreleased`)
 
