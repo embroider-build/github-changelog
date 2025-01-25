@@ -1,17 +1,21 @@
 {
   "solution": {
     "github-changelog": {
-      "impact": "patch",
-      "oldVersion": "1.0.1",
-      "newVersion": "1.0.2",
+      "impact": "minor",
+      "oldVersion": "1.0.2",
+      "newVersion": "1.1.0",
       "constraints": [
         {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        },
+        {
           "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-05-22)\n\ngithub-changelog 1.0.2 (patch)\n\n#### :bug: Bug Fix\n* `github-changelog`\n  * [#23](https://github.com/embroider-build/github-changelog/pull/23) only process commits on the current branch ([@mansona](https://github.com/mansona))\n  * [#24](https://github.com/embroider-build/github-changelog/pull/24) Fix issue with similarly named packages matching the wrong package in the generated changelog. ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2025-01-25)\n\ngithub-changelog 1.1.0 (minor)\n\n#### :rocket: Enhancement\n* `github-changelog`\n  * [#27](https://github.com/embroider-build/github-changelog/pull/27) support enterprise GitHub ([@patricklx](https://github.com/patricklx))\n\n#### :house: Internal\n* `github-changelog`\n  * [#31](https://github.com/embroider-build/github-changelog/pull/31) remove unused release github action ([@mansona](https://github.com/mansona))\n  * [#30](https://github.com/embroider-build/github-changelog/pull/30) update release-plan ([@mansona](https://github.com/mansona))\n  * [#28](https://github.com/embroider-build/github-changelog/pull/28) update pnpm version in CI ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- Patrick Pircher ([@patricklx](https://github.com/patricklx))\n"
 }
