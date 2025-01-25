@@ -1,5 +1,23 @@
 # Changelog
 
+## Release (2025-01-25)
+
+github-changelog 1.1.0 (minor)
+
+#### :rocket: Enhancement
+* `github-changelog`
+  * [#27](https://github.com/embroider-build/github-changelog/pull/27) support enterprise GitHub ([@patricklx](https://github.com/patricklx))
+
+#### :house: Internal
+* `github-changelog`
+  * [#31](https://github.com/embroider-build/github-changelog/pull/31) remove unused release github action ([@mansona](https://github.com/mansona))
+  * [#30](https://github.com/embroider-build/github-changelog/pull/30) update release-plan ([@mansona](https://github.com/mansona))
+  * [#28](https://github.com/embroider-build/github-changelog/pull/28) update pnpm version in CI ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+
 ## Release (2024-05-22)
 
 github-changelog 1.0.2 (patch)
