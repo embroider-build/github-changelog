@@ -1,12 +1,18 @@
 import { CommitListItem } from "../git";
 
-jest.mock("../../src/progress-bar");
-jest.mock("../../src/changelog");
-jest.mock("../../src/github-api");
-jest.mock("../git");
-jest.mock("../fetch");
+import { vi, describe, beforeEach, afterEach, it, expect } from "vitest";
 
-const listOfCommits: CommitListItem[] = [
+import * as git from "../git";
+import Changelog from "../changelog";
+import * as fetch from "../fetch";
+
+vi.mock("../../src/progress-bar");
+vi.mock("../changelog");
+vi.mock("../../src/github-api");
+vi.mock("../git");
+vi.mock("../fetch");
+
+const listOfCommits = [
   {
     sha: "a0000017",
     refName: "",
@@ -113,7 +119,7 @@ const listOfCommits: CommitListItem[] = [
 
 const listOfTags = ["v6.0.0", "v5.0.0", "v4.0.0", "v3.0.0", "v2.0.0", "v1.0.0", "v0.1.0"];
 
-const listOfPackagesForEachCommit: { [id: string]: string[] } = {
+const listOfPackagesForEachCommit = {
   a0000001: ["packages/random/foo.js"],
   a0000002: ["packages/random/package.json"],
   a0000003: ["packages/a-new-hope/rebels.js"],
@@ -133,7 +139,7 @@ const listOfPackagesForEachCommit: { [id: string]: string[] } = {
   a0000017: ["packages/return-of-the-jedi/package.json"],
 };
 
-const listOfFileForEachCommit: { [id: string]: string[] } = {
+const listOfFileForEachCommit = {
   a0000001: ["random/foo.js"],
   a0000002: ["random/package.json"],
   a0000003: ["a-new-hope/rebels.js"],
@@ -312,29 +318,28 @@ const issuesCache = {
 
 describe("createMarkdown", () => {
   beforeEach(() => {
-    require("../fetch").__resetMockResponses();
+    fetch.__resetMockResponses();
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   describe("ignore config", () => {
     it("ignores PRs from bot users even if they were not the (merge) committer", async () => {
-      require("../git").changedPaths.mockImplementation((sha: string) => {
+      git.changedPaths.mockImplementation((sha) => {
         return listOfPackagesForEachCommit[sha];
       });
-      require("../git").lastTag.mockImplementation(() => "v8.0.0");
-      require("../git").listCommits.mockImplementation(() => listOfCommits);
-      require("../git").listTagNames.mockImplementation(() => listOfTags);
+      git.lastTag.mockImplementation(() => "v8.0.0");
+      git.listCommits.mockImplementation(() => listOfCommits);
+      git.listTagNames.mockImplementation(() => listOfTags);
 
-      require("../fetch").__setMockResponses({
+      fetch.__setMockResponses({
         ...usersCache,
         ...issuesCache,
       });
 
-      const MockedChangelog = require("../changelog").default;
-      const changelog = new MockedChangelog({
+      const changelog = new Changelog({
         ignoreCommitters: ["bot-user"],
       });
 
@@ -346,18 +351,17 @@ describe("createMarkdown", () => {
 
   describe("single tags", () => {
     it("outputs correct changelog", async () => {
-      require("../git").changedPaths.mockImplementation((sha: string) => listOfPackagesForEachCommit[sha]);
-      require("../git").lastTag.mockImplementation(() => "v8.0.0");
-      require("../git").listCommits.mockImplementation(() => listOfCommits);
-      require("../git").listTagNames.mockImplementation(() => listOfTags);
+      git.changedPaths.mockImplementation((sha) => listOfPackagesForEachCommit[sha]);
+      git.lastTag.mockImplementation(() => "v8.0.0");
+      git.listCommits.mockImplementation(() => listOfCommits);
+      git.listTagNames.mockImplementation(() => listOfTags);
 
-      require("../fetch").__setMockResponses({
+      fetch.__setMockResponses({
         ...usersCache,
         ...issuesCache,
       });
 
-      const MockedChangelog = require("../changelog").default;
-      const changelog = new MockedChangelog();
+      const changelog = new Changelog();
 
       const markdown = await changelog.createMarkdown();
 
@@ -367,9 +371,9 @@ describe("createMarkdown", () => {
 
   describe("multiple tags", () => {
     it("outputs correct changelog", async () => {
-      require("../git").changedPaths.mockImplementation((sha: string) => listOfPackagesForEachCommit[sha]);
-      require("../git").lastTag.mockImplementation(() => "v8.0.0");
-      require("../git").listCommits.mockImplementation(() => [
+      git.changedPaths.mockImplementation((sha) => listOfPackagesForEachCommit[sha]);
+      git.lastTag.mockImplementation(() => "v8.0.0");
+      git.listCommits.mockImplementation(() => [
         {
           sha: "a0000004",
           refName: "tag: a-new-hope@4.0.0, tag: empire-strikes-back@5.0.0, tag: return-of-the-jedi@6.0.0",
@@ -395,7 +399,7 @@ describe("createMarkdown", () => {
           date: "1966-01-01",
         },
       ]);
-      require("../git").listTagNames.mockImplementation(() => [
+      git.listTagNames.mockImplementation(() => [
         "a-new-hope@4.0.0",
         "attack-of-the-clones@3.1.0",
         "empire-strikes-back@5.0.0",
@@ -405,13 +409,12 @@ describe("createMarkdown", () => {
         "the-phantom-menace@1.0.0",
       ]);
 
-      require("../fetch").__setMockResponses({
+      fetch.__setMockResponses({
         ...usersCache,
         ...issuesCache,
       });
 
-      const MockedChangelog = require("../changelog").default;
-      const changelog = new MockedChangelog();
+      const changelog = new Changelog();
 
       const markdown = await changelog.createMarkdown();
 
@@ -421,18 +424,17 @@ describe("createMarkdown", () => {
 
   describe("single project", () => {
     it("outputs correct changelog", async () => {
-      require("../git").changedPaths.mockImplementation((sha: string) => listOfFileForEachCommit[sha]);
-      require("../git").lastTag.mockImplementation(() => "v8.0.0");
-      require("../git").listCommits.mockImplementation(() => listOfCommits);
-      require("../git").listTagNames.mockImplementation(() => listOfTags);
+      git.changedPaths.mockImplementation((sha) => listOfFileForEachCommit[sha]);
+      git.lastTag.mockImplementation(() => "v8.0.0");
+      git.listCommits.mockImplementation(() => listOfCommits);
+      git.listTagNames.mockImplementation(() => listOfTags);
 
-      require("../fetch").__setMockResponses({
+      fetch.__setMockResponses({
         ...usersCache,
         ...issuesCache,
       });
 
-      const MockedChangelog = require("../changelog").default;
-      const changelog = new MockedChangelog();
+      const changelog = new Changelog();
 
       const markdown = await changelog.createMarkdown();
 
@@ -446,11 +448,11 @@ describe("createMarkdown", () => {
         message: "Bad credentials",
         documentation_url: "https://developer.github.com/v3",
       };
-      beforeEach(() => {
-        require("../git").changedPaths.mockImplementation((sha: string) => listOfFileForEachCommit[sha]);
-        require("../git").lastTag.mockImplementation(() => "v8.0.0");
-        require("../git").listCommits.mockImplementation(() => listOfCommits);
-        require("../git").listTagNames.mockImplementation(() => listOfTags);
+      beforeEach(async () => {
+        git.changedPaths.mockImplementation((sha) => listOfFileForEachCommit[sha]);
+        git.lastTag.mockImplementation(() => "v8.0.0");
+        git.listCommits.mockImplementation(() => listOfCommits);
+        git.listTagNames.mockImplementation(() => listOfTags);
 
         const unauthorized = {
           status: 401,
@@ -458,7 +460,8 @@ describe("createMarkdown", () => {
           ok: false,
           body: badCredentials,
         };
-        require("../fetch").__setMockResponses({
+
+        fetch.__setMockResponses({
           ...usersCache,
           ...Object.keys(issuesCache).reduce(
             (unauthorizedIssues, issue) => ({
@@ -470,11 +473,10 @@ describe("createMarkdown", () => {
         });
       });
       afterEach(() => {
-        jest.resetAllMocks();
+        vi.resetAllMocks();
       });
       it("should abort with a proper error message", async () => {
-        const MockedChangelog = require("../changelog").default;
-        const changelog = new MockedChangelog();
+        const changelog = new Changelog();
         expect.assertions(2);
         try {
           await changelog.createMarkdown();

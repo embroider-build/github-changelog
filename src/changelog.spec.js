@@ -1,13 +1,17 @@
-jest.mock("../src/progress-bar");
-jest.mock("../src/changelog");
-jest.mock("../src/github-api");
-jest.mock("./git");
-jest.mock("./fetch");
+import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
+
+import Changelog from "./changelog";
+import * as fetch from "./fetch";
+import * as git from "./git";
+
+vi.mock("../src/progress-bar");
+vi.mock("../src/changelog");
+vi.mock("../src/github-api");
+vi.mock("./git");
+vi.mock("./fetch");
 
 describe("Changelog", () => {
   describe("packageFromPath", () => {
-    const MockedChangelog = require("./changelog").default;
-
     const TESTS = [
       ["", ""],
       ["foo.js", ""],
@@ -20,15 +24,13 @@ describe("Changelog", () => {
 
     for (let [input, expected] of TESTS) {
       it(`${input} -> ${expected}`, () => {
-        const changelog = new MockedChangelog();
+        const changelog = new Changelog();
         expect(changelog.packageFromPath(input)).toEqual(expected);
       });
     }
   });
 
   describe("packageFromPath with custom packages", () => {
-    const MockedChangelog = require("./changelog").default;
-
     const TESTS = [
       ["", ""],
       ["/some/path/to/repo/foo.js", ""],
@@ -42,7 +44,7 @@ describe("Changelog", () => {
 
     for (let [input, expected] of TESTS) {
       it(`${input} -> ${expected}`, () => {
-        const changelog = new MockedChangelog({
+        const changelog = new Changelog({
           rootPath: "/some/path/to/repo/",
           packages: [
             { name: "funky-package", path: "/some/path/to/repo/over-here" },
@@ -55,8 +57,6 @@ describe("Changelog", () => {
   });
 
   describe("packageFromPath with similarly named packages", () => {
-    const MockedChangelog = require("./changelog").default;
-
     const TESTS = [
       ["", ""],
       ["/ember-fastboot/package.json", "ember-fastboot"],
@@ -66,7 +66,7 @@ describe("Changelog", () => {
 
     for (let [input, expected] of TESTS) {
       it(`${input} -> ${expected}`, () => {
-        const changelog = new MockedChangelog({
+        const changelog = new Changelog({
           rootPath: "/",
           packages: [
             { name: "ember-fastboot", path: "/ember-fastboot" },
@@ -81,9 +81,9 @@ describe("Changelog", () => {
 
   describe("getCommitInfos", () => {
     beforeEach(() => {
-      require("./fetch").__resetMockResponses();
+      fetch.__resetMockResponses();
 
-      require("./git").listCommits.mockImplementation(() => [
+      git.listCommits.mockImplementation(() => [
         {
           sha: "a0000005",
           refName: "HEAD -> master, tag: v0.2.0, origin/master, origin/HEAD",
@@ -116,9 +116,9 @@ describe("Changelog", () => {
         },
       ]);
 
-      require("./git").listTagNames.mockImplementation(() => ["v0.2.0", "v0.1.1", "v0.1.0", "v0.0.1"]);
+      git.listTagNames.mockImplementation(() => ["v0.2.0", "v0.1.1", "v0.1.0", "v0.0.1"]);
 
-      require("./git").changedPaths.mockImplementation(() => []);
+      git.changedPaths.mockImplementation(() => []);
 
       const usersCache = {
         "https://api.github.com/users/test-user": {
@@ -139,19 +139,18 @@ describe("Changelog", () => {
           },
         },
       };
-      require("./fetch").__setMockResponses({
+      fetch.__setMockResponses({
         ...usersCache,
         ...issuesCache,
       });
     });
 
     afterEach(() => {
-      jest.resetAllMocks();
+      vi.resetAllMocks();
     });
 
     it("parse commits with different tags", async () => {
-      const MockedChangelog = require("./changelog").default;
-      const changelog = new MockedChangelog();
+      const changelog = new Changelog();
       const commitsInfo = await changelog.getCommitInfos();
 
       expect(commitsInfo).toMatchSnapshot();
@@ -160,7 +159,7 @@ describe("Changelog", () => {
 
   describe("getCommitters", () => {
     beforeEach(() => {
-      require("./fetch").__resetMockResponses();
+      fetch.__resetMockResponses();
 
       const usersCache = {
         "https://api.github.com/users/test-user": {
@@ -192,12 +191,11 @@ describe("Changelog", () => {
           },
         },
       };
-      require("./fetch").__setMockResponses(usersCache);
+      fetch.__setMockResponses(usersCache);
     });
 
     it("get list of valid commiters", async () => {
-      const MockedChangelog = require("./changelog").default;
-      const changelog = new MockedChangelog({
+      const changelog = new Changelog({
         ignoreCommitters: ["user-bot"],
       });
 

@@ -1,6 +1,8 @@
 import { CommitInfo, Release } from "./interfaces";
 import MarkdownRenderer from "./markdown-renderer";
 
+import { describe, it, expect } from "vitest";
+
 const UNRELEASED_TAG = "___unreleased___";
 
 const BASIC_COMMIT = {

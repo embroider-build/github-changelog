@@ -1,11 +1,11 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MarkdownRenderer groupByCategory group commits by category 1`] = `
-Array [
-  Object {
-    "commits": Array [
-      Object {
-        "categories": Array [
+exports[`MarkdownRenderer > groupByCategory > group commits by category 1`] = `
+[
+  {
+    "commits": [
+      {
+        "categories": [
           ":rocket: New Feature",
         ],
         "commitSHA": "a0000003",
@@ -13,20 +13,20 @@ Array [
     ],
     "name": ":rocket: New Feature",
   },
-  Object {
-    "commits": Array [],
+  {
+    "commits": [],
     "name": ":boom: Breaking Change",
   },
-  Object {
-    "commits": Array [
-      Object {
-        "categories": Array [
+  {
+    "commits": [
+      {
+        "categories": [
           ":bug: Bug Fix",
         ],
         "commitSHA": "a0000004",
       },
-      Object {
-        "categories": Array [
+      {
+        "categories": [
           ":bug: Bug Fix",
         ],
         "commitSHA": "a0000001",
@@ -34,33 +34,33 @@ Array [
     ],
     "name": ":bug: Bug Fix",
   },
-  Object {
-    "commits": Array [],
+  {
+    "commits": [],
     "name": ":nail_care: Enhancement",
   },
-  Object {
-    "commits": Array [],
+  {
+    "commits": [],
     "name": ":memo: Documentation",
   },
-  Object {
-    "commits": Array [],
+  {
+    "commits": [],
     "name": ":house: Maintenance",
   },
 ]
 `;
 
-exports[`MarkdownRenderer renderContributionList renders a list of contributions 1`] = `
+exports[`MarkdownRenderer > renderContributionList > renders a list of contributions 1`] = `
 "* My cool PR ([@hzoo](http://hzoo.com))
 * [#42](http://github.com/42) My cool PR ([@hzoo](http://hzoo.com))"
 `;
 
-exports[`MarkdownRenderer renderContributorList renders a list of GitHub users 1`] = `
+exports[`MarkdownRenderer > renderContributorList > renders a list of GitHub users 1`] = `
 "#### Committers: 2
 - Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
 - [@hzoo](https://github.com/hzoo)"
 `;
 
-exports[`MarkdownRenderer renderRelease includes contributors list 1`] = `
+exports[`MarkdownRenderer > renderRelease > includes contributors list 1`] = `
 "## v1.0.0 (2021-05-02)
 
 #### :rocket: New Feature
@@ -70,21 +70,21 @@ exports[`MarkdownRenderer renderRelease includes contributors list 1`] = `
 - Henry ([@hzoo](http://hzoo.com))"
 `;
 
-exports[`MarkdownRenderer renderRelease renders unreleased commits 1`] = `
+exports[`MarkdownRenderer > renderRelease > renders unreleased commits 1`] = `
 "## Unreleased (2018-07-10)
 
 #### :rocket: New Feature
 * My cool PR ([@hzoo](http://hzoo.com))"
 `;
 
-exports[`MarkdownRenderer renderRelease renders unreleased commits, with named next release 1`] = `
+exports[`MarkdownRenderer > renderRelease > renders unreleased commits, with named next release 1`] = `
 "## v2.0.0-alpha.0 (2018-07-10)
 
 #### :rocket: New Feature
 * My cool PR ([@hzoo](http://hzoo.com))"
 `;
 
-exports[`MarkdownRenderer renderRelease skips contributors list if empty 1`] = `
+exports[`MarkdownRenderer > renderRelease > skips contributors list if empty 1`] = `
 "## v1.0.0 (2021-05-02)
 
 #### :rocket: New Feature
