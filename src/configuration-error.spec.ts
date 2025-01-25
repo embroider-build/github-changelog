@@ -1,5 +1,7 @@
 import ConfigurationError from "./configuration-error";
 
+import { describe, it, expect } from "vitest";
+
 describe("ConfigurationError", function () {
   it("can be identified using `instanceof`", function () {
     const configError = new ConfigurationError("foobar");

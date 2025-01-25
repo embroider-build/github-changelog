@@ -5,6 +5,8 @@ const path = require("path");
 import { findRepoFromPkg, fromPath } from "./configuration";
 import ConfigurationError from "./configuration-error";
 
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+
 describe("Configuration", function () {
   describe("fromPath", function () {
     const tmpDir = `${os.tmpdir()}/changelog-test`;

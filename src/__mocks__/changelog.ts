@@ -1,6 +1,6 @@
 import { Configuration } from "../configuration";
 
-const Changelog = jest.requireActual("../changelog").default;
+import Changelog from "../changelog";
 
 const defaultConfig = {
   rootPath: "../",
@@ -24,7 +24,7 @@ class MockedChangelog extends Changelog {
     super(Object.assign({}, defaultConfig, config));
   }
 
-  private getToday() {
+  protected getToday() {
     return "2099-01-01";
   }
 }
