@@ -28,7 +28,6 @@
     "lint": "eslint src --ext ts --format stylish",
     "prepack": "pnpm build",
     "prettier": "prettier --write 'src/**/*.ts'",
-    "release": "release-it",
     "test": "jest",
     "test-ci": "pnpm build && pnpm test",
     "watch": "pnpm build -- --watch"
