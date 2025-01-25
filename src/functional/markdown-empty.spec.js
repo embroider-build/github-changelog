@@ -12,11 +12,11 @@ vi.mock("../../src/github-api");
 vi.mock("../git");
 vi.mock("../fetch");
 
-const listOfCommits: CommitListItem[] = [];
+const listOfCommits = [];
 
 const listOfTags = ["v6.0.0", "v5.0.0", "v4.0.0", "v3.0.0", "v2.0.0", "v1.0.0", "v0.1.0"];
 
-const listOfPackagesForEachCommit: { [id: string]: string[] } = {
+const listOfPackagesForEachCommit= {
   a0000001: ["packages/random/foo.js"],
   a0000002: ["packages/random/package.json"],
   a0000003: ["packages/a-new-hope/rebels.js"],
@@ -34,7 +34,7 @@ const listOfPackagesForEachCommit: { [id: string]: string[] } = {
   a0000015: ["packages/untitled/script.md"],
 };
 
-const listOfFileForEachCommit: { [id: string]: string[] } = {
+const listOfFileForEachCommit = {
   a0000001: ["random/foo.js"],
   a0000002: ["random/package.json"],
   a0000003: ["a-new-hope/rebels.js"],
@@ -113,7 +113,7 @@ const issuesCache = {
 
 describe("multiple tags", () => {
   it("outputs correct changelog", async () => {
-    git.changedPaths.mockImplementation((sha: string) => listOfPackagesForEachCommit[sha]);
+    git.changedPaths.mockImplementation((sha) => listOfPackagesForEachCommit[sha]);
     git.lastTag.mockImplementation(() => "v8.0.0");
     git.listCommits.mockImplementation(() => listOfCommits);
     git.listTagNames.mockImplementation(() => [
@@ -150,7 +150,7 @@ describe("createMarkdown", () => {
 
   describe("single tags", () => {
     it("outputs correct changelog", async () => {
-      git.changedPaths.mockImplementation((sha: string) => listOfPackagesForEachCommit[sha]);
+      git.changedPaths.mockImplementation((sha) => listOfPackagesForEachCommit[sha]);
       git.lastTag.mockImplementation(() => "v8.0.0");
       git.listCommits.mockImplementation(() => listOfCommits);
       git.listTagNames.mockImplementation(() => listOfTags);
@@ -170,7 +170,7 @@ describe("createMarkdown", () => {
 
   describe("single project", () => {
     it("outputs correct changelog", async () => {
-      git.changedPaths.mockImplementation((sha: string) => listOfFileForEachCommit[sha]);
+      git.changedPaths.mockImplementation((sha) => listOfFileForEachCommit[sha]);
       git.lastTag.mockImplementation(() => "v8.0.0");
       git.listCommits.mockImplementation(() => listOfCommits);
       git.listTagNames.mockImplementation(() => listOfTags);
