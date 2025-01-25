@@ -73,7 +73,7 @@ export default class GithubAPI {
     throw new ConfigurationError(`Fetch error: ${res.statusText}.\n${JSON.stringify(parsedResponse)}`);
   }
 
-  private getAuthToken(): string {
+  protected getAuthToken(): string {
     return process.env.GITHUB_AUTH || "";
   }
 }

@@ -1,10 +1,16 @@
 import { CommitListItem } from "../git";
 
-jest.mock("../../src/progress-bar");
-jest.mock("../../src/changelog");
-jest.mock("../../src/github-api");
-jest.mock("../git");
-jest.mock("../fetch");
+import { vi, describe, it, beforeEach, afterEach, expect } from "vitest";
+
+import * as fetch from "../fetch";
+import * as git from "../git";
+import Changelog from "../changelog";
+
+vi.mock("../../src/progress-bar");
+vi.mock("../../src/changelog");
+vi.mock("../../src/github-api");
+vi.mock("../git");
+vi.mock("../fetch");
 
 const listOfCommits: CommitListItem[] = [];
 
@@ -107,10 +113,10 @@ const issuesCache = {
 
 describe("multiple tags", () => {
   it("outputs correct changelog", async () => {
-    require("../git").changedPaths.mockImplementation((sha: string) => listOfPackagesForEachCommit[sha]);
-    require("../git").lastTag.mockImplementation(() => "v8.0.0");
-    require("../git").listCommits.mockImplementation(() => listOfCommits);
-    require("../git").listTagNames.mockImplementation(() => [
+    git.changedPaths.mockImplementation((sha: string) => listOfPackagesForEachCommit[sha]);
+    git.lastTag.mockImplementation(() => "v8.0.0");
+    git.listCommits.mockImplementation(() => listOfCommits);
+    git.listTagNames.mockImplementation(() => [
       "a-new-hope@4.0.0",
       "attack-of-the-clones@3.1.0",
       "empire-strikes-back@5.0.0",
@@ -120,13 +126,12 @@ describe("multiple tags", () => {
       "the-phantom-menace@1.0.0",
     ]);
 
-    require("../fetch").__setMockResponses({
+    fetch.__setMockResponses({
       ...usersCache,
       ...issuesCache,
     });
 
-    const MockedChangelog = require("../changelog").default;
-    const changelog = new MockedChangelog();
+    const changelog = new Changelog();
 
     const markdown = await changelog.createMarkdown();
 
@@ -136,27 +141,26 @@ describe("multiple tags", () => {
 
 describe("createMarkdown", () => {
   beforeEach(() => {
-    require("../fetch").__resetMockResponses();
+    fetch.__resetMockResponses();
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   describe("single tags", () => {
     it("outputs correct changelog", async () => {
-      require("../git").changedPaths.mockImplementation((sha: string) => listOfPackagesForEachCommit[sha]);
-      require("../git").lastTag.mockImplementation(() => "v8.0.0");
-      require("../git").listCommits.mockImplementation(() => listOfCommits);
-      require("../git").listTagNames.mockImplementation(() => listOfTags);
+      git.changedPaths.mockImplementation((sha: string) => listOfPackagesForEachCommit[sha]);
+      git.lastTag.mockImplementation(() => "v8.0.0");
+      git.listCommits.mockImplementation(() => listOfCommits);
+      git.listTagNames.mockImplementation(() => listOfTags);
 
-      require("../fetch").__setMockResponses({
+      fetch.__setMockResponses({
         ...usersCache,
         ...issuesCache,
       });
 
-      const MockedChangelog = require("../changelog").default;
-      const changelog = new MockedChangelog();
+      const changelog = new Changelog();
 
       const markdown = await changelog.createMarkdown();
 
@@ -166,18 +170,17 @@ describe("createMarkdown", () => {
 
   describe("single project", () => {
     it("outputs correct changelog", async () => {
-      require("../git").changedPaths.mockImplementation((sha: string) => listOfFileForEachCommit[sha]);
-      require("../git").lastTag.mockImplementation(() => "v8.0.0");
-      require("../git").listCommits.mockImplementation(() => listOfCommits);
-      require("../git").listTagNames.mockImplementation(() => listOfTags);
+      git.changedPaths.mockImplementation((sha: string) => listOfFileForEachCommit[sha]);
+      git.lastTag.mockImplementation(() => "v8.0.0");
+      git.listCommits.mockImplementation(() => listOfCommits);
+      git.listTagNames.mockImplementation(() => listOfTags);
 
-      require("../fetch").__setMockResponses({
+      fetch.__setMockResponses({
         ...usersCache,
         ...issuesCache,
       });
 
-      const MockedChangelog = require("../changelog").default;
-      const changelog = new MockedChangelog();
+      const changelog = new Changelog();
 
       const markdown = await changelog.createMarkdown();
 

@@ -222,7 +222,7 @@ export default class Changelog {
     return Object.keys(releaseMap).map(tag => releaseMap[tag]);
   }
 
-  private getToday() {
+  protected getToday() {
     const date = new Date().toISOString();
     return date.slice(0, date.indexOf("T"));
   }
