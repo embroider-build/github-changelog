@@ -187,4 +187,15 @@ export function findRepoFromPkg(pkg: any): string | undefined {
   if (info && info.type === "github") {
     return `${info.user}/${info.project}`;
   }
+  // cannot detect self hosted GitHub, e.g
+  // git@github.host.com:embroider-build/github-changelog.git
+  // https://github.host.com/embroider-build/github-changelog.git
+  const matchHttps = /https:\/\/[^\/]+\/([^\/]+)\/([^\/]+)\.git/.exec(url);
+  if (matchHttps && matchHttps.length === 3) {
+    return `${matchHttps[1]}/${matchHttps[2]}`;
+  }
+  const matchGit = /git@[^:]+:([^\/]+)\/([^\/]+)\.git/.exec(url);
+  if (matchGit && matchGit.length === 3) {
+    return `${matchGit[1]}/${matchGit[2]}`;
+  }
 }

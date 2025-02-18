@@ -21,6 +21,9 @@ describe("Configuration", function () {
       fs.writeJsonSync(path.join(tmpDir, "lerna.json"), {
         changelog: { repo: "foo/bar", nextVersion: "next" },
       });
+      fs.writeJsonSync(path.join(tmpDir, "package.json"), {
+        name: "bar",
+      });
 
       const result = fromPath(tmpDir);
       expect(result.nextVersion).toEqual("next");
@@ -70,10 +73,12 @@ describe("Configuration", function () {
       ["https://github.com/ember-cli/ember-rfc176-data.git", "ember-cli/ember-rfc176-data"],
       ["https://github.com/babel/ember-cli-babel", "babel/ember-cli-babel"],
       ["https://github.com/babel/ember-cli-babel.git", "babel/ember-cli-babel"],
+      ["https://github.host.com/babel/ember-cli-babel.git", "babel/ember-cli-babel"],
       ["git@github.com:babel/ember-cli-babel.git", "babel/ember-cli-babel"],
+      ["git@github.host.com:babel/ember-cli-babel.git", "babel/ember-cli-babel"],
       ["https://github.com/emberjs/ember.js.git", "emberjs/ember.js"],
-      ["https://gitlab.com/gnachman/iterm2.git", undefined],
-      ["git@gitlab.com:gnachman/iterm2.git", undefined],
+      ["https://gitlab.com/gnachman/iterm2.git", "gnachman/iterm2"],
+      ["git@gitlab.com:gnachman/iterm2.git", "gnachman/iterm2"],
     ];
 
     tests.forEach(([input, output]) => {

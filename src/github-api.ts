@@ -38,7 +38,7 @@ export default class GithubAPI {
 
   constructor(config: Options) {
     this.cacheDir = config.cacheDir && path.join(config.rootPath, config.cacheDir, "github");
-    this.github = config.github || "github.com";
+    this.github = config.github || process.env.GITHUB_DOMAIN || "github.com";
     this.auth = this.getAuthToken();
     if (!this.auth) {
       throw new ConfigurationError("Must provide GITHUB_AUTH");
@@ -50,11 +50,13 @@ export default class GithubAPI {
   }
 
   public async getIssueData(repo: string, issue: string): Promise<GitHubIssueResponse> {
-    return this._fetch(`https://api.${this.github}/repos/${repo}/issues/${issue}`);
+    const prefix = process.env.GITHUB_API_URL || `https://api.${this.github}`;
+    return this._fetch(`${prefix}/repos/${repo}/issues/${issue}`);
   }
 
   public async getUserData(login: string): Promise<GitHubUserResponse> {
-    return this._fetch(`https://api.${this.github}/users/${login}`);
+    const prefix = process.env.GITHUB_API_URL || `https://api.${this.github}`;
+    return this._fetch(`${prefix}/users/${login}`);
   }
 
   private async _fetch(url: string): Promise<any> {
