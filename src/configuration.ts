@@ -32,6 +32,9 @@ export function load(options: ConfigLoaderOptions = {}): Configuration {
 interface PackageJson {
   type: boolean;
   name: string;
+  changelog?: {
+    ignore?: boolean;
+  };
 }
 
 interface Package {
@@ -52,10 +55,12 @@ function getPackages(rootPath: string): { name: string; path: string }[] {
   try {
     let { packages } = getPackagesSync(rootPath) as PackagesResult;
 
-    return packages.map(pkg => ({
-      name: pkg.packageJson.name,
-      path: pkg.dir,
-    }));
+    return packages
+      .filter(pkg => !pkg.packageJson.changelog?.ignore)
+      .map(pkg => ({
+        name: pkg.packageJson.name,
+        path: pkg.dir,
+      }));
   } catch (e) {
     // Pre-existing lerna-changelog (from before the fork) behavior returns []
     // when something goes wrong with package discovery.

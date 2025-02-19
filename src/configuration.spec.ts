@@ -30,6 +30,22 @@ describe("Configuration", function () {
       expect(result.repo).toEqual("foo/bar");
     });
 
+    it("ignores packages with ignore config'", function () {
+      fs.writeJsonSync(path.join(tmpDir, "package.json"), {
+        name: "bar",
+        changelog: {
+          ignore: true,
+        },
+      });
+
+      const result = fromPath(tmpDir, {
+        repo: "foo/bar",
+      });
+      expect(result.nextVersion).toEqual(undefined);
+      expect(result.repo).toEqual("foo/bar");
+      expect(result.packages).toEqual([]);
+    });
+
     it("reads the configuration from 'package.json'", function () {
       fs.writeJsonSync(path.join(tmpDir, "package.json"), {
         changelog: { repo: "foo/bar", nextVersion: "next" },
