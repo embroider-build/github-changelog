@@ -12,6 +12,7 @@ export interface Configuration {
   rootPath: string;
   labels: { [key: string]: string };
   ignoreCommitters: string[];
+  ignoreLabel: string;
   cacheDir?: string;
   nextVersion: string | undefined;
   nextVersionFromMetadata?: boolean;
@@ -81,7 +82,7 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
   }
 
   // Step 2: fill partial config with defaults
-  let { repo, nextVersion, labels, cacheDir, ignoreCommitters, wildcardLabel, github } = config;
+  let { repo, nextVersion, labels, cacheDir, ignoreCommitters, ignoreLabel, wildcardLabel, github } = config;
 
   const packages = getPackages(rootPath);
 
@@ -130,12 +131,17 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
     ];
   }
 
+  if (!ignoreLabel) {
+    ignoreLabel = "ignore";
+  }
+
   return {
     repo,
     nextVersion,
     rootPath,
     labels,
     ignoreCommitters,
+    ignoreLabel,
     cacheDir,
     wildcardLabel,
     packages,

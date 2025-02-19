@@ -93,6 +93,12 @@ describe("Changelog", () => {
 
       git.listCommits.mockImplementation(() => [
         {
+          sha: "a0000006",
+          refName: "",
+          summary: "Merge pull request #3 from my-feature-3",
+          date: "2017-01-01",
+        },
+        {
           sha: "a0000005",
           refName: "HEAD -> master, tag: v0.2.0, origin/master, origin/HEAD",
           summary: "chore(release): releasing component",
@@ -143,6 +149,14 @@ describe("Changelog", () => {
             number: 2,
             title: "This is the commit title for the issue (#2)",
             labels: [{ name: "Type: New Feature" }, { name: "Status: In Progress" }],
+            user: usersCache["https://api.github.com/users/test-user"].body,
+          },
+        },
+        "https://api.github.com/repos/embroider-build/github-changelog/issues/3": {
+          body: {
+            number: 2,
+            title: "This is the commit title for the issue (#2)",
+            labels: [{ name: "ignore" }, { name: "Status: In Progress" }],
             user: usersCache["https://api.github.com/users/test-user"].body,
           },
         },

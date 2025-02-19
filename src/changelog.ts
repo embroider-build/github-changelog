@@ -45,10 +45,12 @@ export default class Changelog {
     const commits = this.getListOfCommits(from, to);
 
     // Step 2: Find tagged commits (local)
-    const commitInfos = this.toCommitInfos(commits);
+    let commitInfos = this.toCommitInfos(commits);
 
     // Step 3: Download PR data (remote)
     await this.downloadIssueData(commitInfos);
+
+    commitInfos = commitInfos.filter(c => !c.githubIssue?.labels.map(l => l.name).includes(this.config.ignoreLabel));
 
     // Step 4: Fill in categories from remote labels (local)
     this.fillInCategories(commitInfos);
@@ -247,6 +249,10 @@ export default class Changelog {
       commit.categories = Object.keys(this.config.labels)
         .filter(label => labels.indexOf(label.toLowerCase()) !== -1)
         .map(label => this.config.labels[label]);
+
+      if (labels.includes(this.config.ignoreLabel)) {
+        commit.categories = [this.config.ignoreLabel];
+      }
     }
   }
 
