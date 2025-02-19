@@ -18,6 +18,9 @@ export interface GitHubIssueResponse {
   labels: Array<{
     name: string;
   }>;
+  base: {
+    ref: string;
+  };
   user: {
     login: string;
     html_url: string;
@@ -45,13 +48,17 @@ export default class GithubAPI {
     }
   }
 
-  public getBaseIssueUrl(repo: string): string {
-    return `https://${this.github}/${repo}/issues/`;
+  public async getPullRequest(repo: string, commit: string) {
+    const prefix = process.env.GITHUB_API_URL || `https://api.${this.github}`;
+    const pullRequests: GitHubIssueResponse[] = await this._fetch(`${prefix}/repos/${repo}/commits/${commit}/pulls`);
+    // with git log --no-parent we will not have commits that
+    // could belong to more than 1 pull request because the first one is the merge_commit_sha
+    // which will be unique for each merge
+    return pullRequests?.[0];
   }
 
-  public async getIssueData(repo: string, issue: string): Promise<GitHubIssueResponse> {
-    const prefix = process.env.GITHUB_API_URL || `https://api.${this.github}`;
-    return this._fetch(`${prefix}/repos/${repo}/issues/${issue}`);
+  public getBaseIssueUrl(repo: string): string {
+    return `https://${this.github}/${repo}/issues/`;
   }
 
   public async getUserData(login: string): Promise<GitHubUserResponse> {

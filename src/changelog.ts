@@ -161,15 +161,13 @@ export default class Changelog {
           .map(ref => ref.substr(TAG_PREFIX.length));
       }
 
-      const issueNumber = findPullRequestId(message);
-
       return {
         commitSHA: sha,
         message,
         // Note: Only merge commits or commits referencing an issue / PR
         // will be kept in the changelog.
         tags: tagsInCommit,
-        issueNumber,
+        issueNumber: null,
         date,
       } as CommitInfo;
     });
@@ -180,8 +178,11 @@ export default class Changelog {
     await pMap(
       commitInfos,
       async (commitInfo: CommitInfo) => {
-        if (commitInfo.issueNumber) {
-          commitInfo.githubIssue = await this.github.getIssueData(this.config.repo, commitInfo.issueNumber);
+        const issueData = await this.github.getPullRequest(this.config.repo, commitInfo.commitSHA);
+
+        if (issueData) {
+          commitInfo.issueNumber = issueData.number.toString();
+          commitInfo.githubIssue = issueData;
         }
 
         progressBar.tick();
