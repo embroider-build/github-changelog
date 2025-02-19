@@ -1,4 +1,4 @@
-import { GitHubIssueResponse, GitHubUserResponse } from "./github-api";
+import { GitHubIssueResponse, GitHubUserResponse } from "./github-api.js";
 
 export interface CommitInfo {
   commitSHA: string;
