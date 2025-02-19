@@ -61,5 +61,5 @@ export function listCommits(from: string, to: string = ""): CommitListItem[] {
     .stdout.split("\n")
     .filter(Boolean)
     .map(parseLogMessage)
-    .filter(Boolean);
+    .filter(Boolean) as CommitListItem[];
 }
