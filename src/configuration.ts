@@ -31,10 +31,8 @@ export function load(options: ConfigLoaderOptions = {}): Configuration {
 
 interface PackageJson {
   type: boolean;
+  private: boolean;
   name: string;
-  changelog?: {
-    ignore?: boolean;
-  };
 }
 
 interface Package {
@@ -56,7 +54,7 @@ function getPackages(rootPath: string): { name: string; path: string }[] {
     let { packages } = getPackagesSync(rootPath) as PackagesResult;
 
     return packages
-      .filter(pkg => !pkg.packageJson.changelog?.ignore)
+      .filter(pkg => !pkg.packageJson.private)
       .map(pkg => ({
         name: pkg.packageJson.name,
         path: pkg.dir,

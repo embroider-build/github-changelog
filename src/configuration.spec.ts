@@ -30,12 +30,10 @@ describe("Configuration", function () {
       expect(result.repo).toEqual("foo/bar");
     });
 
-    it("ignores packages with ignore config'", function () {
+    it("ignores private packages'", function () {
       fs.writeJsonSync(path.join(tmpDir, "package.json"), {
         name: "bar",
-        changelog: {
-          ignore: true,
-        },
+        private: true,
       });
 
       const result = fromPath(tmpDir, {
