@@ -1,4 +1,5 @@
 import GithubAPI from "./github-api";
+import { describe, it, expect } from "vitest";
 
 describe("github api", function () {
   it("should return correct api endpoint with env var set", function () {

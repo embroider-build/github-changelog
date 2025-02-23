@@ -1,7 +1,7 @@
-const GithubAPI = jest.requireActual("../github-api").default;
+import GithubAPI from "../github-api";
 
 class MockedGithubAPI extends GithubAPI {
-  private getAuthToken() {
+  protected getAuthToken() {
     return "123";
   }
 }

@@ -1,5 +1,7 @@
 import findPullRequestId from "./find-pull-request-id";
 
+import { describe, it, expect } from "vitest";
+
 describe("findPullRequestId", function () {
   it("finds the id in a GitHub merge commit", function () {
     const message =

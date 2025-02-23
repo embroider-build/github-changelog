@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`createMarkdown ignore config ignores PRs from bot users even if they were not the (merge) committer 1`] = `
+exports[`createMarkdown > ignore config > ignores PRs from bot users even if they were not the (merge) committer 1`] = `
 "
 ## Unreleased (2099-01-01)
 
@@ -65,7 +65,7 @@ exports[`createMarkdown ignore config ignores PRs from bot users even if they we
 - Luke Skywalker ([@luke](https://github.com/luke))"
 `;
 
-exports[`createMarkdown multiple tags outputs correct changelog 1`] = `
+exports[`createMarkdown > multiple tags > outputs correct changelog 1`] = `
 "
 ## a-new-hope@4.0.0 (1977-05-25)
 
@@ -97,7 +97,7 @@ exports[`createMarkdown multiple tags outputs correct changelog 1`] = `
 - Luke Skywalker ([@luke](https://github.com/luke))"
 `;
 
-exports[`createMarkdown single project outputs correct changelog 1`] = `
+exports[`createMarkdown > single project > outputs correct changelog 1`] = `
 "
 ## Unreleased (2099-01-01)
 
@@ -158,7 +158,7 @@ exports[`createMarkdown single project outputs correct changelog 1`] = `
 - Luke Skywalker ([@luke](https://github.com/luke))"
 `;
 
-exports[`createMarkdown single tags outputs correct changelog 1`] = `
+exports[`createMarkdown > single tags > outputs correct changelog 1`] = `
 "
 ## Unreleased (2099-01-01)
 

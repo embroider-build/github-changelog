@@ -1,4 +1,5 @@
 import { parseLogMessage } from "./git";
+import { describe, it, expect } from "vitest";
 
 const messages = [
   "hash<a0000000> ref<> message<fix: some random fix which will be ignored> date<1966-01-01>",

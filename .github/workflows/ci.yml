@@ -5,7 +5,6 @@ on:
     branches:
       - master
       - main
-      - "v*"
     tags:
       - "v*"
   pull_request:
@@ -16,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         node-version: ["18", "20", "22"]
 
