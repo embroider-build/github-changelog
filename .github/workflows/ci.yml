@@ -43,4 +43,6 @@ jobs:
           cache: pnpm
       - run: pnpm install
       - run: pnpm build
-      - run: GITHUB_API_URL= pnpm test
+      - run: pnpm test
+        env:
+          GITHUB_API_URL: ""
