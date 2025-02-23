@@ -2,20 +2,16 @@
   "solution": {
     "github-changelog": {
       "impact": "minor",
-      "oldVersion": "1.0.2",
-      "newVersion": "1.1.0",
+      "oldVersion": "1.1.0",
+      "newVersion": "1.2.0",
       "constraints": [
         {
           "impact": "minor",
           "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-01-25)\n\ngithub-changelog 1.1.0 (minor)\n\n#### :rocket: Enhancement\n* `github-changelog`\n  * [#27](https://github.com/embroider-build/github-changelog/pull/27) support enterprise GitHub ([@patricklx](https://github.com/patricklx))\n\n#### :house: Internal\n* `github-changelog`\n  * [#31](https://github.com/embroider-build/github-changelog/pull/31) remove unused release github action ([@mansona](https://github.com/mansona))\n  * [#30](https://github.com/embroider-build/github-changelog/pull/30) update release-plan ([@mansona](https://github.com/mansona))\n  * [#28](https://github.com/embroider-build/github-changelog/pull/28) update pnpm version in CI ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- Patrick Pircher ([@patricklx](https://github.com/patricklx))\n"
+  "description": "## Release (2025-02-23)\n\ngithub-changelog 1.2.0 (minor)\n\n#### :rocket: Enhancement\n* `github-changelog`\n  * [#33](https://github.com/embroider-build/github-changelog/pull/33) support github enterpise url detection and env vars ([@patricklx](https://github.com/patricklx))\n\n#### Committers: 1\n- Patrick Pircher ([@patricklx](https://github.com/patricklx))\n"
 }

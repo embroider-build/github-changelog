@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2025-02-23)
+
+github-changelog 1.2.0 (minor)
+
+#### :rocket: Enhancement
+* `github-changelog`
+  * [#33](https://github.com/embroider-build/github-changelog/pull/33) support github enterpise url detection and env vars ([@patricklx](https://github.com/patricklx))
+
+#### Committers: 1
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+
 ## Release (2025-01-25)
 
 github-changelog 1.1.0 (minor)
