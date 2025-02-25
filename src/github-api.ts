@@ -10,23 +10,7 @@ export interface GitHubUserResponse {
   html_url: string;
 }
 
-export interface GitHubIssueResponse {
-  number: number;
-  title: string;
-  pull_request?: {
-    html_url: string;
-  };
-  labels: Array<{
-    name: string;
-  }>;
-  base: {
-    ref: string;
-  };
-  user: {
-    login: string;
-    html_url: string;
-  };
-}
+export type GitHubIssueResponse = ReturnType<GithubAPI["getPullRequest"]>;
 
 export interface Options {
   repo: string;
@@ -62,13 +46,10 @@ export default class GithubAPI {
     return pullRequests.data?.[0];
   }
 
-  public getBaseIssueUrl(repo: string): string {
-    return `https://${this.github}/${repo}/issues/`;
-  }
-
-  public async getUserData(login: string): Promise<GitHubUserResponse> {
-    const prefix = process.env.GITHUB_API_URL || `https://api.${this.github}`;
-    return this._fetch(`${prefix}/users/${login}`);
+  public async getUserData(login: string): Promise<ReturnType<Octokit["users"]["getByUsername"]>> {
+    return await this.octokit.users.getByUsername({
+      username: login,
+    });
   }
 
   private async _fetch(url: string): Promise<any> {
