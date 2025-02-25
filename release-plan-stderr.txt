@@ -1,0 +1,8 @@
+# Unlabeled Changes
+
+* `github-changelog`
+  * [#37](https://github.com/embroider-build/github-changelog/pull/37) ignore private packages ([@patricklx](https://github.com/patricklx))
+  * [#36](https://github.com/embroider-build/github-changelog/pull/36) add ignore label ([@patricklx](https://github.com/patricklx))
+
+
+*Cannot plan release until the above changes are labeled*.
