@@ -14,6 +14,7 @@ const defaultConfig = {
     "Type: Maintenance": ":house: Maintenance",
   },
   ignoreCommitters: [],
+  ignoreLabel: "ignore",
   cacheDir: ".changelog",
   nextVersion: "Unreleased",
   packages: [],
