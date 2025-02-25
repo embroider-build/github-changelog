@@ -99,7 +99,7 @@ export default class MarkdownRenderer {
     if (issue) {
       let markdown = "";
 
-      if (issue.number && issue.pull_request && issue.pull_request.html_url) {
+      if (issue && issue.pull_request && issue.pull_request.html_url) {
         const prUrl = issue.pull_request.html_url;
         markdown += `[#${issue.number}](${prUrl}) `;
       }

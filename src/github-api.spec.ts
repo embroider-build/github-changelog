@@ -20,8 +20,8 @@ describe("github api", function () {
     github.getUserData("foo");
     expect(fetchedUrl).toEqual(`https://api.github.host.com/users/foo`);
 
-    github.getIssueData("foo", "2");
-    expect(fetchedUrl).toEqual(`https://api.github.host.com/repos/foo/issues/2`);
+    github.getPullRequest("foo", "2");
+    expect(fetchedUrl).toEqual(`https://api.github.host.com/repos/foo/commits/2/pulls`);
 
     delete process.env.GITHUB_DOMAIN;
 
@@ -39,7 +39,7 @@ describe("github api", function () {
     github.getUserData("foo");
     expect(fetchedUrl).toEqual(`https://api.github.host2.com/users/foo`);
 
-    github.getIssueData("foo", "2");
-    expect(fetchedUrl).toEqual(`https://api.github.host2.com/repos/foo/issues/2`);
+    github.getPullRequest("foo", "2");
+    expect(fetchedUrl).toEqual(`https://api.github.host2.com/repos/foo/commits/2/pulls`);
   });
 });

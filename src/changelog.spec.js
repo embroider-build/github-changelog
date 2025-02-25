@@ -143,14 +143,38 @@ describe("Changelog", () => {
           },
         },
       };
-      const issuesCache = {
-        "https://api.github.com/repos/embroider-build/github-changelog/issues/2": {
-          body: {
-            number: 2,
-            title: "This is the commit title for the issue (#2)",
-            labels: [{ name: "Type: New Feature" }, { name: "Status: In Progress" }],
-            user: usersCache["https://api.github.com/users/test-user"].body,
-          },
+      const prCache = {
+        "https://api.github.com/repos/embroider-build/github-changelog/commits/a0000001/pulls": {
+          body: [],
+        },
+        "https://api.github.com/repos/embroider-build/github-changelog/commits/a0000002/pulls": {
+          body: [],
+        },
+        "https://api.github.com/repos/embroider-build/github-changelog/commits/a0000003/pulls": {
+          body: [
+            {
+              number: 2,
+              title: "feat(module) Add new module (#2)",
+              labels: [{ name: "Type: New Feature" }, { name: "Status: In Progress" }],
+              user: usersCache["https://api.github.com/users/test-user"].body,
+            },
+          ],
+        },
+        "https://api.github.com/repos/embroider-build/github-changelog/commits/a0000004/pulls": {
+          body: [
+            {
+              number: 2,
+              title: "This is the commit title for the issue (#2)",
+              labels: [{ name: "Type: New Feature" }, { name: "Status: In Progress" }],
+              user: usersCache["https://api.github.com/users/test-user"].body,
+            },
+          ],
+        },
+        "https://api.github.com/repos/embroider-build/github-changelog/commits/a0000005/pulls": {
+          body: [],
+        },
+        "https://api.github.com/repos/embroider-build/github-changelog/commits/a0000006/pulls": {
+          body: [],
         },
         "https://api.github.com/repos/embroider-build/github-changelog/issues/3": {
           body: {
@@ -163,7 +187,7 @@ describe("Changelog", () => {
       };
       fetch.__setMockResponses({
         ...usersCache,
-        ...issuesCache,
+        ...prCache,
       });
     });
 
