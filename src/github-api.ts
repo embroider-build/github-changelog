@@ -2,6 +2,7 @@ const path = require("path");
 
 import ConfigurationError from "./configuration-error";
 import fetch from "./fetch";
+import { Octokit } from "@octokit/rest";
 
 export interface GitHubUserResponse {
   login: string;
@@ -38,23 +39,27 @@ export default class GithubAPI {
   private cacheDir: string | undefined;
   private auth: string;
   private github: string;
+  private octokit: Octokit;
 
   constructor(config: Options) {
     this.cacheDir = config.cacheDir && path.join(config.rootPath, config.cacheDir, "github");
     this.github = config.github || process.env.GITHUB_DOMAIN || "github.com";
+    const baseUrl = process.env.GITHUB_API_URL || `https://api.${this.github}`;
     this.auth = this.getAuthToken();
     if (!this.auth) {
       throw new ConfigurationError("Must provide GITHUB_AUTH");
     }
+    this.octokit = new Octokit({ auth: this.auth, baseUrl });
   }
 
-  public async getPullRequest(repo: string, commit: string) {
-    const prefix = process.env.GITHUB_API_URL || `https://api.${this.github}`;
-    const pullRequests: GitHubIssueResponse[] = await this._fetch(`${prefix}/repos/${repo}/commits/${commit}/pulls`);
-    // with git log --no-parent we will not have commits that
-    // could belong to more than 1 pull request because the first one is the merge_commit_sha
-    // which will be unique for each merge
-    return pullRequests?.[0];
+  public async getPullRequest(repoFullName: string, commit: string) {
+    const [owner, repo] = repoFullName.split("/");
+    const pullRequests = await this.octokit.repos.listPullRequestsAssociatedWithCommit({
+      owner,
+      repo,
+      commit_sha: commit,
+    });
+    return pullRequests.data?.[0];
   }
 
   public getBaseIssueUrl(repo: string): string {
