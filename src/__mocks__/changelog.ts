@@ -1,6 +1,6 @@
-import { Configuration } from "../configuration";
+import { Configuration } from "../configuration.js";
 
-import Changelog from "../changelog";
+import Changelog from "../changelog.js";
 
 const defaultConfig = {
   rootPath: "../",

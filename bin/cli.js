@@ -2,6 +2,10 @@
 
 "use strict";
 
-var cli = require("../lib/cli");
+async function run() {
+  var cli = await import("../lib/cli.js");
 
-cli.run();
+  await cli.run();
+}
+
+run();
