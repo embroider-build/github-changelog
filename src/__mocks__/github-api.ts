@@ -1,4 +1,4 @@
-import GithubAPI from "../github-api";
+import GithubAPI from "../github-api.js";
 
 class MockedGithubAPI extends GithubAPI {
   protected getAuthToken() {

@@ -1,5 +1,5 @@
-import { GitHubUserResponse } from "./github-api";
-import { CommitInfo, Release } from "./interfaces";
+import { GitHubUserResponse } from "./github-api.js";
+import { CommitInfo, Release } from "./interfaces.js";
 
 const UNRELEASED_TAG = "___unreleased___";
 const COMMIT_FIX_REGEX = /(fix|close|resolve)(e?s|e?d)? [T#](\d+)/i;
@@ -23,7 +23,7 @@ export default class MarkdownRenderer {
   }
 
   public renderMarkdown(releases: Release[]) {
-    let output = releases
+    const output = releases
       .map(release => this.renderRelease(release))
       .filter(Boolean)
       .join("\n\n\n");
@@ -137,7 +137,7 @@ export default class MarkdownRenderer {
     return this.options.categories.map(name => {
       // Keep only the commits that have a matching label with the one
       // provided in the lerna.json config.
-      let commits = allCommits.filter(commit => commit.categories && commit.categories.indexOf(name) !== -1);
+      const commits = allCommits.filter(commit => commit.categories && commit.categories.indexOf(name) !== -1);
 
       return { name, commits };
     });
