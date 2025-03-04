@@ -315,6 +315,7 @@ describe("createMarkdown", () => {
   beforeEach(() => {
     MockedOctokit.__resetMockResponses();
     Octokit.mockImplementation((...args) => MockedOctokit.Octokit(...args));
+    Octokit.plugin.mockImplementation(() => MockedOctokit.Octokit);
   });
 
   afterEach(() => {

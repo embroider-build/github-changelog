@@ -35,7 +35,25 @@ export default class GithubAPI {
       return;
     }
     const baseUrl = process.env.GITHUB_API_URL || `https://api.${this.github}`;
-    this.octokit = new (await import("@octokit/rest")).Octokit({ auth: this.auth, baseUrl });
+    const throttling = await import("@octokit/plugin-throttling");
+    const Octokit = (await import("@octokit/rest")).Octokit.plugin(throttling.throttling);
+    console.log("Octokit", Octokit);
+    this.octokit = new Octokit({
+      auth: this.auth,
+      baseUrl,
+      throttle: {
+        onRateLimit: (retryAfter, options, octokit, retryCount) => {
+          octokit.log.warn(`Request quota exhausted for request ${options.method} ${options.url}`);
+          octokit.log.info(`Retrying after ${retryAfter} seconds!`);
+          return true;
+        },
+        onSecondaryRateLimit: (retryAfter, options, octokit) => {
+          octokit.log.warn(`SecondaryRateLimit detected for request ${options.method} ${options.url}`);
+          octokit.log.info(`Retrying after ${retryAfter} seconds!`);
+          return true;
+        },
+      },
+    });
   }
 
   public getBaseIssueUrl(repo: string): string {

@@ -13,6 +13,7 @@ vi.mock("./git");
 describe("Changelog", () => {
   beforeEach(() => {
     Octokit.mockImplementation((...args) => MockedOctokit.Octokit(...args));
+    Octokit.plugin.mockImplementation(() => MockedOctokit.Octokit);
   });
   afterEach(() => {
     vi.resetAllMocks();

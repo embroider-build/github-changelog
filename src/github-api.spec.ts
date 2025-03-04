@@ -21,6 +21,10 @@ describe("github api", function () {
         {
           "auth": "test",
           "baseUrl": "https://api.github.host1.com",
+          "throttle": {
+            "onRateLimit": [Function],
+            "onSecondaryRateLimit": [Function],
+          },
         },
       ]
     `);

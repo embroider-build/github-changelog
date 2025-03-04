@@ -26,6 +26,7 @@ export const Octokit = function (...args: any[]) {
   octokit.args = args;
   return octokit;
 };
+Octokit.plugin = () => Octokit;
 Octokit.octokit = octokit;
 export const __setMockResponses = (res: any) => (responses = res);
 export const __resetMockResponses = () => (responses = { prs: {}, users: {} });
