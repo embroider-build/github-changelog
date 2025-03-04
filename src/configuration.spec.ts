@@ -1,11 +1,10 @@
-const os = require("os");
-const fs = require("fs-extra");
-const path = require("path");
-
+import os from "os";
 import { findRepoFromPkg, fromPath } from "./configuration";
 import ConfigurationError from "./configuration-error";
-
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import fs from "fs-extra";
+
+import path from "path";
 
 describe("Configuration", function () {
   describe("fromPath", function () {
