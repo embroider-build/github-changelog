@@ -43,7 +43,8 @@ jobs:
           cache: pnpm
       - run: pnpm install
       - run: pnpm build
+      - run: git fetch --all && git fetch --unshallow # this is to work for the acceptance tests
       - run: pnpm test
         env:
           GITHUB_API_URL: ""
-          GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }} #this is for acceptance tests
