@@ -68,11 +68,6 @@
   "engines": {
     "node": "18.* || 20.* || >= 22"
   },
-  "pnpm": {
-    "overrides": {
-      "github-changelog": "link:./"
-    }
-  },
   "changelog": {
     "repo": "embroider-build/github-changelog",
     "labels": {
