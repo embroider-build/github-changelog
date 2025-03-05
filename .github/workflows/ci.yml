@@ -46,3 +46,7 @@ jobs:
       - run: pnpm test
         env:
           GITHUB_API_URL: ""
+      - run: git fetch --all && git fetch --unshallow
+      - run: node ./bin/cli.js --from=ee1c697fcf871114c53e9847c43e221d3056f19d --to=b20002d9760e9e212bc623c8f3f42931ddc01bda
+        env:
+          GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
