@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  github-changelog: link:./
+
 importers:
 
   .:
@@ -927,11 +930,6 @@ packages:
   get-stream@6.0.1:
     resolution: {integrity: sha512-ts6Wi+2j3jQjqi70w5AlN8DFnkSwC+MqmxEzdEALB2qXZYV3X/b1CTfgPLGJNMeAWxdPfU8FO1ms3NUfaHCPYg==}
     engines: {node: '>=10'}
-
-  github-changelog@1.2.0:
-    resolution: {integrity: sha512-hLlDDWxGkN7QfjVCTohCravUaVoOIbOxTSeH/5K30luf5Z8s0JWrWzrz3ot1zlkSX4656vzw+iG8t1hmtiuq0g==}
-    engines: {node: 12.* || 14.* || >= 16}
-    hasBin: true
 
   glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
@@ -2670,21 +2668,6 @@ snapshots:
 
   get-stream@6.0.1: {}
 
-  github-changelog@1.2.0:
-    dependencies:
-      '@manypkg/get-packages': 2.2.2
-      chalk: 4.1.2
-      cli-highlight: 2.1.11
-      execa: 5.1.1
-      hosted-git-info: 4.1.0
-      make-fetch-happen: 9.1.0
-      p-map: 3.0.0
-      progress: 2.0.3
-      yargs: 17.7.2
-    transitivePeerDependencies:
-      - bluebird
-      - supports-color
-
   glob-parent@5.1.2:
     dependencies:
       is-glob: 4.0.3
@@ -3158,7 +3141,7 @@ snapshots:
       cli-highlight: 2.1.11
       execa: 4.1.0
       fs-extra: 10.1.0
-      github-changelog: 1.2.0
+      github-changelog: 'link:'
       js-yaml: 4.1.0
       latest-version: 9.0.0
       parse-github-repo-url: 1.4.1
@@ -3167,7 +3150,6 @@ snapshots:
     transitivePeerDependencies:
       - bluebird
       - encoding
-      - supports-color
 
   require-directory@2.1.1: {}
 
