@@ -1,5 +1,32 @@
 # Changelog
 
+## Release (2025-03-05)
+
+github-changelog 2.0.0 (major)
+
+#### :boom: Breaking Change
+* `github-changelog`
+  * [#38](https://github.com/embroider-build/github-changelog/pull/38) drop support for node 16 ([@mansona](https://github.com/mansona))
+
+#### :rocket: Enhancement
+* `github-changelog`
+  * [#37](https://github.com/embroider-build/github-changelog/pull/37) ignore private packages ([@patricklx](https://github.com/patricklx))
+  * [#36](https://github.com/embroider-build/github-changelog/pull/36) add ignore label ([@patricklx](https://github.com/patricklx))
+
+#### :bug: Bug Fix
+* `github-changelog`
+  * [#44](https://github.com/embroider-build/github-changelog/pull/44) Revert "use github api to find pull request for commit" ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* `github-changelog`
+  * [#35](https://github.com/embroider-build/github-changelog/pull/35) use github api to find pull request for commit ([@patricklx](https://github.com/patricklx))
+  * [#25](https://github.com/embroider-build/github-changelog/pull/25) add windows tests ([@mansona](https://github.com/mansona))
+  * [#32](https://github.com/embroider-build/github-changelog/pull/32) convert to vitest ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+
 ## Release (2025-02-23)
 
 github-changelog 1.2.0 (minor)
