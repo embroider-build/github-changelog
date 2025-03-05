@@ -1,22 +1,18 @@
-import * as MockedOctokit from "../__mocks__/@octokit/rest";
-import { Octokit } from "@octokit/rest";
+import { CommitListItem } from "../git";
+
 import { vi, describe, beforeEach, afterEach, it, expect } from "vitest";
+
 import * as git from "../git";
 import Changelog from "../changelog";
+import * as fetch from "../fetch";
 
 vi.mock("../../src/progress-bar");
 vi.mock("../changelog");
 vi.mock("../../src/github-api");
 vi.mock("../git");
-vi.mock("@octokit/rest");
+vi.mock("../fetch");
 
 const listOfCommits = [
-  {
-    sha: "a0000018",
-    refName: "",
-    summary: "local testing, not pushed",
-    date: "2017-01-01",
-  },
   {
     sha: "a0000017",
     refName: "",
@@ -141,7 +137,6 @@ const listOfPackagesForEachCommit = {
   a0000015: ["packages/untitled/script.md"],
   a0000016: ["packages/return-of-the-jedi/package.json"],
   a0000017: ["packages/return-of-the-jedi/package.json"],
-  a0000018: ["packages/return-of-the-jedi/package.json"],
 };
 
 const listOfFileForEachCommit = {
@@ -162,159 +157,168 @@ const listOfFileForEachCommit = {
   a0000015: ["untitled/script.md"],
   a0000016: ["packages/return-of-the-jedi/package.json"],
   a0000017: ["packages/return-of-the-jedi/package.json"],
-  a0000018: ["packages/return-of-the-jedi/package.json"],
 };
 
 const usersCache = {
-  luke: {
-    login: "luke",
-    html_url: "https://github.com/luke",
-    name: "Luke Skywalker",
+  "https://api.github.com/users/luke": {
+    body: {
+      login: "luke",
+      html_url: "https://github.com/luke",
+      name: "Luke Skywalker",
+    },
   },
-  "princess-leia": {
-    login: "princess-leia",
-    html_url: "https://github.com/princess-leia",
-    name: "Princess Leia Organa",
+  "https://api.github.com/users/princess-leia": {
+    body: {
+      login: "princess-leia",
+      html_url: "https://github.com/princess-leia",
+      name: "Princess Leia Organa",
+    },
   },
-  vader: {
-    login: "vader",
-    html_url: "https://github.com/vader",
-    name: "Darth Vader",
+  "https://api.github.com/users/vader": {
+    body: {
+      login: "vader",
+      html_url: "https://github.com/vader",
+      name: "Darth Vader",
+    },
   },
-  gtarkin: {
-    login: "gtarkin",
-    html_url: "https://github.com/gtarkin",
-    name: "Governor Tarkin",
+  "https://api.github.com/users/gtarkin": {
+    body: {
+      login: "gtarkin",
+      html_url: "https://github.com/gtarkin",
+      name: "Governor Tarkin",
+    },
   },
-  "han-solo": {
-    login: "han-solo",
-    html_url: "https://github.com/han-solo",
-    name: "Han Solo",
+  "https://api.github.com/users/han-solo": {
+    body: {
+      login: "han-solo",
+      html_url: "https://github.com/han-solo",
+      name: "Han Solo",
+    },
   },
-  chewbacca: {
-    login: "chewbacca",
-    html_url: "https://github.com/chewbacca",
-    name: "Chwebacca",
+  "https://api.github.com/users/chewbacca": {
+    body: {
+      login: "chewbacca",
+      html_url: "https://github.com/chewbacca",
+      name: "Chwebacca",
+    },
   },
-  "rd-d2": {
-    login: "rd-d2",
-    html_url: "https://github.com/rd-d2",
-    name: "R2-D2",
+  "https://api.github.com/users/rd-d2": {
+    body: {
+      login: "rd-d2",
+      html_url: "https://github.com/rd-d2",
+      name: "R2-D2",
+    },
   },
-  "c-3po": {
-    login: "c-3po",
-    html_url: "https://github.com/c-3po",
-    name: "C-3PO",
+  "https://api.github.com/users/c-3po": {
+    body: {
+      login: "c-3po",
+      html_url: "https://github.com/c-3po",
+      name: "C-3PO",
+    },
   },
-  "bot-user": {
-    login: "bot-user",
-    html_url: "https://github.com/bot-user",
-    name: "Bot User",
+  "https://api.github.com/users/bot-user": {
+    body: {
+      login: "bot-user",
+      html_url: "https://github.com/bot-user",
+      name: "Bot User",
+    },
   },
 };
 const issuesCache = {
-  a0000001: [],
-
-  a0000002: [],
-
-  a0000003: [
-    {
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/1": {
+    body: {
       number: 1,
       title: "feat: May the force be with you",
       labels: [{ name: "Type: New Feature" }],
-      html_url: "https://github.com/embroider-build/github-changelog/pull/1",
-      user: usersCache["luke"],
+      pull_request: {
+        html_url: "https://github.com/embroider-build/github-changelog/pull/1",
+      },
+      user: usersCache["https://api.github.com/users/luke"].body,
     },
-  ],
-
-  a0000004: [],
-
-  a0000005: [],
-
-  a0000006: [
-    {
+  },
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/2": {
+    body: {
       number: 2,
       title: "chore: Terminate her... immediately!",
       labels: [{ name: "Type: Breaking Change" }],
-      html_url: "https://github.com/embroider-build/github-changelog/pull/2",
-      user: usersCache["gtarkin"],
+      pull_request: {
+        html_url: "https://github.com/embroider-build/github-changelog/pull/2",
+      },
+      user: usersCache["https://api.github.com/users/gtarkin"].body,
     },
-  ],
-
-  a0000007: [],
-
-  a0000008: [
-    {
+  },
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/3": {
+    body: {
       number: 3,
       title: "fix: Get me the rebels base!",
       labels: [{ name: "Type: Bug" }],
-      html_url: "https://github.com/embroider-build/github-changelog/pull/3",
-      user: usersCache["vader"],
+      pull_request: {
+        html_url: "https://github.com/embroider-build/github-changelog/pull/3",
+      },
+      user: usersCache["https://api.github.com/users/vader"].body,
     },
-  ],
-
-  a0000009: [],
-
-  a0000010: [
-    {
+  },
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/4": {
+    body: {
       number: 4,
       title: "fix: RRRAARRWHHGWWR",
       labels: [{ name: "Type: Bug" }, { name: "Type: Maintenance" }],
-      html_url: "https://github.com/embroider-build/github-changelog/pull/4",
-      user: usersCache["chewbacca"],
+      pull_request: {
+        html_url: "https://github.com/embroider-build/github-changelog/pull/4",
+      },
+      user: usersCache["https://api.github.com/users/chewbacca"].body,
     },
-  ],
-
-  a0000011: [
-    {
+  },
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/5": {
+    body: {
       number: 5,
       title: "feat: I am your father",
       labels: [{ name: "Type: New Feature" }],
-      html_url: "https://github.com/embroider-build/github-changelog/pull/5",
-      user: usersCache["vader"],
+      pull_request: {
+        html_url: "https://github.com/embroider-build/github-changelog/pull/5",
+      },
+      user: usersCache["https://api.github.com/users/vader"].body,
     },
-  ],
-
-  a0000012: [
-    {
+  },
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/6": {
+    body: {
       number: 6,
       title: "refactor: he is my brother",
       labels: [{ name: "Type: Enhancement" }],
-      html_url: "https://github.com/embroider-build/github-changelog/pull/6",
-      user: usersCache["princess-leia"],
+      pull_request: {
+        html_url: "https://github.com/embroider-build/github-changelog/pull/6",
+      },
+      user: usersCache["https://api.github.com/users/princess-leia"].body,
     },
-  ],
-
-  a0000013: [],
-
-  a0000014: [
-    {
+  },
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/7": {
+    body: {
       number: 7,
       title: "feat: that is not how the Force works!",
       labels: [{ name: "Type: New Feature" }, { name: "Type: Enhancement" }],
-      html_url: "https://github.com/embroider-build/github-changelog/pull/7",
-      user: usersCache["han-solo"],
+      pull_request: {
+        html_url: "https://github.com/embroider-build/github-changelog/pull/7",
+      },
+      user: usersCache["https://api.github.com/users/han-solo"].body,
     },
-  ],
-
-  a0000015: [],
-
-  a0000016: [],
-
-  a0000017: [
-    {
+  },
+  "https://api.github.com/repos/embroider-build/github-changelog/issues/8": {
+    body: {
       number: 8,
       title: "This is the commit title for the issue (#8)",
       labels: [{ name: "Type: Maintenance" }, { name: "Status: In Progress" }],
-      user: usersCache["bot-user"],
+      user: {
+        login: "bot-user",
+        html_url: "https://github.com/bot-user",
+        name: "Bot User",
+      },
     },
-  ],
+  },
 };
 
 describe("createMarkdown", () => {
   beforeEach(() => {
-    MockedOctokit.__resetMockResponses();
-    Octokit.mockImplementation((...args) => MockedOctokit.Octokit(...args));
+    fetch.__resetMockResponses();
   });
 
   afterEach(() => {
@@ -323,16 +327,16 @@ describe("createMarkdown", () => {
 
   describe("ignore config", () => {
     it("ignores PRs from bot users even if they were not the (merge) committer", async () => {
-      git.changedPaths.mockImplementation(sha => {
+      git.changedPaths.mockImplementation((sha) => {
         return listOfPackagesForEachCommit[sha];
       });
       git.lastTag.mockImplementation(() => "v8.0.0");
       git.listCommits.mockImplementation(() => listOfCommits);
       git.listTagNames.mockImplementation(() => listOfTags);
 
-      MockedOctokit.__setMockResponses({
-        users: { ...usersCache },
-        prs: { ...issuesCache },
+      fetch.__setMockResponses({
+        ...usersCache,
+        ...issuesCache,
       });
 
       const changelog = new Changelog({
@@ -347,14 +351,14 @@ describe("createMarkdown", () => {
 
   describe("single tags", () => {
     it("outputs correct changelog", async () => {
-      git.changedPaths.mockImplementation(sha => listOfPackagesForEachCommit[sha]);
+      git.changedPaths.mockImplementation((sha) => listOfPackagesForEachCommit[sha]);
       git.lastTag.mockImplementation(() => "v8.0.0");
       git.listCommits.mockImplementation(() => listOfCommits);
       git.listTagNames.mockImplementation(() => listOfTags);
 
-      MockedOctokit.__setMockResponses({
-        users: { ...usersCache },
-        prs: { ...issuesCache },
+      fetch.__setMockResponses({
+        ...usersCache,
+        ...issuesCache,
       });
 
       const changelog = new Changelog();
@@ -367,7 +371,7 @@ describe("createMarkdown", () => {
 
   describe("multiple tags", () => {
     it("outputs correct changelog", async () => {
-      git.changedPaths.mockImplementation(sha => listOfPackagesForEachCommit[sha]);
+      git.changedPaths.mockImplementation((sha) => listOfPackagesForEachCommit[sha]);
       git.lastTag.mockImplementation(() => "v8.0.0");
       git.listCommits.mockImplementation(() => [
         {
@@ -405,9 +409,9 @@ describe("createMarkdown", () => {
         "the-phantom-menace@1.0.0",
       ]);
 
-      MockedOctokit.__setMockResponses({
-        users: { ...usersCache },
-        prs: { ...issuesCache },
+      fetch.__setMockResponses({
+        ...usersCache,
+        ...issuesCache,
       });
 
       const changelog = new Changelog();
@@ -420,14 +424,14 @@ describe("createMarkdown", () => {
 
   describe("single project", () => {
     it("outputs correct changelog", async () => {
-      git.changedPaths.mockImplementation(sha => listOfFileForEachCommit[sha]);
+      git.changedPaths.mockImplementation((sha) => listOfFileForEachCommit[sha]);
       git.lastTag.mockImplementation(() => "v8.0.0");
       git.listCommits.mockImplementation(() => listOfCommits);
       git.listTagNames.mockImplementation(() => listOfTags);
 
-      MockedOctokit.__setMockResponses({
-        users: { ...usersCache },
-        prs: { ...issuesCache },
+      fetch.__setMockResponses({
+        ...usersCache,
+        ...issuesCache,
       });
 
       const changelog = new Changelog();
@@ -445,7 +449,7 @@ describe("createMarkdown", () => {
         documentation_url: "https://developer.github.com/v3",
       };
       beforeEach(async () => {
-        git.changedPaths.mockImplementation(sha => listOfFileForEachCommit[sha]);
+        git.changedPaths.mockImplementation((sha) => listOfFileForEachCommit[sha]);
         git.lastTag.mockImplementation(() => "v8.0.0");
         git.listCommits.mockImplementation(() => listOfCommits);
         git.listTagNames.mockImplementation(() => listOfTags);
@@ -457,17 +461,15 @@ describe("createMarkdown", () => {
           body: badCredentials,
         };
 
-        MockedOctokit.__setMockResponses({
-          users: { ...usersCache },
-          prs: {
-            ...Object.keys(issuesCache).reduce(
-              (unauthorizedIssues, issue) => ({
-                ...unauthorizedIssues,
-                [issue]: unauthorized,
-              }),
-              {}
-            ),
-          },
+        fetch.__setMockResponses({
+          ...usersCache,
+          ...Object.keys(issuesCache).reduce(
+            (unauthorizedIssues, issue) => ({
+              ...unauthorizedIssues,
+              [issue]: unauthorized,
+            }),
+            {}
+          ),
         });
       });
       afterEach(() => {
@@ -479,7 +481,9 @@ describe("createMarkdown", () => {
         try {
           await changelog.createMarkdown();
         } catch (error) {
-          expect(error).toEqual(expect.objectContaining({ message: expect.stringContaining("Bad credentials") }));
+          expect(error).toEqual(
+            expect.objectContaining({ message: expect.stringContaining("Fetch error: Unauthorized") })
+          );
           expect(error).toEqual(
             expect.objectContaining({ message: expect.stringContaining(JSON.stringify(badCredentials)) })
           );

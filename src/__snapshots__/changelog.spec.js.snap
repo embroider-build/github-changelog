@@ -3,14 +3,6 @@
 exports[`Changelog > getCommitInfos > parse commits with different tags 1`] = `
 [
   {
-    "commitSHA": "a0000006",
-    "date": "2017-01-01",
-    "issueNumber": null,
-    "message": "Merge pull request #3 from my-feature-3",
-    "packages": [],
-    "tags": undefined,
-  },
-  {
     "commitSHA": "a0000005",
     "date": "2017-01-01",
     "issueNumber": null,
@@ -64,7 +56,7 @@ exports[`Changelog > getCommitInfos > parse commits with different tags 1`] = `
         },
       ],
       "number": 2,
-      "title": "feat(module) Add new module (#2)",
+      "title": "This is the commit title for the issue (#2)",
       "user": {
         "html_url": "https://github.com/test-user",
         "login": "test-user",
