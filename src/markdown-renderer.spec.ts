@@ -23,7 +23,9 @@ const COMMIT_WITH_NUMBER = {
       html_url: "http://hzoo.com",
     },
     number: 42,
-    html_url: "http://github.com/42",
+    pull_request: {
+      html_url: "http://github.com/42",
+    },
   },
 } as CommitInfo;
 

@@ -1,14 +1,28 @@
+const path = require("path");
+
 import ConfigurationError from "./configuration-error";
-import type { Octokit } from "@octokit/rest";
+import fetch from "./fetch";
 
 export interface GitHubUserResponse {
   login: string;
-  name: string | null;
+  name: string;
   html_url: string;
 }
 
-type ExtractPromiseValue<T> = T extends Promise<infer U> ? U : never;
-export type GitHubIssueResponse = NonNullable<ExtractPromiseValue<ReturnType<GithubAPI["getPullRequest"]>>>;
+export interface GitHubIssueResponse {
+  number: number;
+  title: string;
+  pull_request?: {
+    html_url: string;
+  };
+  labels: Array<{
+    name: string;
+  }>;
+  user: {
+    login: string;
+    html_url: string;
+  };
+}
 
 export interface Options {
   repo: string;
@@ -18,11 +32,12 @@ export interface Options {
 }
 
 export default class GithubAPI {
+  private cacheDir: string | undefined;
   private auth: string;
   private github: string;
-  private octokit!: Octokit;
 
   constructor(config: Options) {
+    this.cacheDir = config.cacheDir && path.join(config.rootPath, config.cacheDir, "github");
     this.github = config.github || process.env.GITHUB_DOMAIN || "github.com";
     this.auth = this.getAuthToken();
     if (!this.auth) {
@@ -30,63 +45,32 @@ export default class GithubAPI {
     }
   }
 
-  async initOctokit() {
-    if (this.octokit) {
-      return;
-    }
-    const baseUrl = process.env.GITHUB_API_URL || `https://api.${this.github}`;
-    this.octokit = new (await import("@octokit/rest")).Octokit({ auth: this.auth, baseUrl });
-  }
-
   public getBaseIssueUrl(repo: string): string {
     return `https://${this.github}/${repo}/issues/`;
   }
 
-  public async getPullRequest(repoFullName: string, commit: string) {
-    await this.initOctokit();
-    const [owner, repo] = repoFullName.split("/");
-    try {
-      const pullRequests = await this.octokit.repos.listPullRequestsAssociatedWithCommit({
-        owner,
-        repo,
-        commit_sha: commit,
-      });
-      if ((pullRequests.data as any)?.status) {
-        throw new Error(JSON.stringify((pullRequests.data as any).body));
-      }
-      return pullRequests.data?.[0];
-    } catch (e) {
-      if ((e as any).status === 404) {
-        return null;
-      }
-      if ((e as any).status === 422) {
-        return null;
-      }
-      throw e;
-    }
+  public async getIssueData(repo: string, issue: string): Promise<GitHubIssueResponse> {
+    const prefix = process.env.GITHUB_API_URL || `https://api.${this.github}`;
+    return this._fetch(`${prefix}/repos/${repo}/issues/${issue}`);
   }
 
-  public async getUserData(login: string) {
-    await this.initOctokit();
-    try {
-      const user = await this.octokit.users.getByUsername({
-        username: login,
-      });
+  public async getUserData(login: string): Promise<GitHubUserResponse> {
+    const prefix = process.env.GITHUB_API_URL || `https://api.${this.github}`;
+    return this._fetch(`${prefix}/users/${login}`);
+  }
 
-      if ((user.data as any)?.status) {
-        throw new Error(JSON.stringify((user.data as any).body));
-      }
-      return user.data;
-    } catch (e) {
-      if ((e as any).status === 404) {
-        return {
-          login,
-          name: "unknown",
-          html_url: "",
-        };
-      }
-      throw e;
+  private async _fetch(url: string): Promise<any> {
+    const res = await fetch(url, {
+      cachePath: this.cacheDir,
+      headers: {
+        Authorization: `token ${this.auth}`,
+      },
+    });
+    const parsedResponse = await res.json();
+    if (res.ok) {
+      return parsedResponse;
     }
+    throw new ConfigurationError(`Fetch error: ${res.statusText}.\n${JSON.stringify(parsedResponse)}`);
   }
 
   protected getAuthToken(): string {

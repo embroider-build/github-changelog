@@ -1,14 +1,16 @@
-import chalk from "chalk";
+import chalk = require("chalk");
+
 import { highlight } from "cli-highlight";
+
 import Changelog from "./changelog";
 import { load as loadConfig } from "./configuration";
 import ConfigurationError from "./configuration-error";
-import Yargs from "yargs";
-import { hideBin } from "yargs/helpers";
+
 const NEXT_VERSION_DEFAULT = "Unreleased";
 
 export async function run() {
-  const yargs = Yargs(hideBin(process.argv));
+  const yargs = require("yargs");
+
   const argv = yargs
     .usage("github-changelog [options]")
     .options({
@@ -57,15 +59,15 @@ export async function run() {
     )
     .epilog("For more information, see https://github.com/embroider-build/github-changelog")
     .wrap(Math.min(100, yargs.terminalWidth()))
-    .parseSync();
+    .parse();
 
-  const options = {
+  let options = {
     tagFrom: argv["from"] || argv["tag-from"],
     tagTo: argv["to"] || argv["tag-to"],
   };
 
   try {
-    const config = loadConfig({
+    let config = loadConfig({
       nextVersionFromMetadata: argv["next-version-from-metadata"],
       repo: argv.repo,
     });
@@ -74,9 +76,9 @@ export async function run() {
       config.nextVersion = argv["next-version"];
     }
 
-    const result = await new Changelog(config).createMarkdown(options);
+    let result = await new Changelog(config).createMarkdown(options);
 
-    const highlighted = highlight(result, {
+    let highlighted = highlight(result, {
       language: "Markdown",
       theme: {
         section: chalk.bold,

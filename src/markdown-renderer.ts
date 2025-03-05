@@ -23,7 +23,7 @@ export default class MarkdownRenderer {
   }
 
   public renderMarkdown(releases: Release[]) {
-    const output = releases
+    let output = releases
       .map(release => this.renderRelease(release))
       .filter(Boolean)
       .join("\n\n\n");
@@ -34,6 +34,7 @@ export default class MarkdownRenderer {
     // Group commits in release by category
     const categories = this.groupByCategory(release.commits);
     const categoriesWithCommits = categories.filter(category => category.commits.length > 0);
+
     // Skip this iteration if there are no commits available for the release
     if (categoriesWithCommits.length === 0) return "";
 
@@ -98,8 +99,8 @@ export default class MarkdownRenderer {
     if (issue) {
       let markdown = "";
 
-      if (issue && issue.html_url) {
-        const prUrl = issue.html_url;
+      if (issue.number && issue.pull_request && issue.pull_request.html_url) {
+        const prUrl = issue.pull_request.html_url;
         markdown += `[#${issue.number}](${prUrl}) `;
       }
 
@@ -107,9 +108,7 @@ export default class MarkdownRenderer {
         issue.title = issue.title.replace(COMMIT_FIX_REGEX, `Closes [#$3](${this.options.baseIssueUrl}$3)`);
       }
 
-      if (issue.user) {
-        markdown += `${issue.title} ([@${issue.user.login}](${issue.user.html_url}))`;
-      }
+      markdown += `${issue.title} ([@${issue.user.login}](${issue.user.html_url}))`;
 
       return markdown;
     }
@@ -138,7 +137,7 @@ export default class MarkdownRenderer {
     return this.options.categories.map(name => {
       // Keep only the commits that have a matching label with the one
       // provided in the lerna.json config.
-      const commits = allCommits.filter(commit => commit.categories && commit.categories.indexOf(name) !== -1);
+      let commits = allCommits.filter(commit => commit.categories && commit.categories.indexOf(name) !== -1);
 
       return { name, commits };
     });
