@@ -3,7 +3,6 @@ const { resolve, sep } = require("path");
 
 import progressBar from "./progress-bar";
 import { Configuration } from "./configuration";
-import findPullRequestId from "./find-pull-request-id";
 import * as Git from "./git";
 import GithubAPI, { GitHubUserResponse } from "./github-api";
 import { CommitInfo, Release } from "./interfaces";
@@ -161,15 +160,12 @@ export default class Changelog {
           .map(ref => ref.substr(TAG_PREFIX.length));
       }
 
-      const issueNumber = findPullRequestId(message);
-
       return {
         commitSHA: sha,
         message,
         // Note: Only merge commits or commits referencing an issue / PR
         // will be kept in the changelog.
         tags: tagsInCommit,
-        issueNumber,
         date,
       } as CommitInfo;
     });
@@ -177,11 +173,15 @@ export default class Changelog {
 
   private async downloadIssueData(commitInfos: CommitInfo[]) {
     progressBar.init("Downloading issue information…", commitInfos.length);
+    const PRs = new Set();
     await pMap(
       commitInfos,
       async (commitInfo: CommitInfo) => {
-        if (commitInfo.issueNumber) {
-          commitInfo.githubIssue = await this.github.getIssueData(this.config.repo, commitInfo.issueNumber);
+        const issueData = await this.github.getPullRequest(this.config.repo, commitInfo.commitSHA);
+
+        if (issueData && !PRs.has(issueData.number)) {
+          PRs.add(issueData.number);
+          commitInfo.githubIssue = issueData;
         }
 
         progressBar.tick();
@@ -214,7 +214,7 @@ export default class Changelog {
           releaseMap[currentTag] = { name: currentTag, date, commits: [] };
         }
 
-        let prUserLogin = commit.githubIssue?.user.login;
+        let prUserLogin = commit.githubIssue?.user!!.login;
         if (prUserLogin && !this.ignoreCommitter(prUserLogin)) {
           releaseMap[currentTag].commits.push(commit);
         }

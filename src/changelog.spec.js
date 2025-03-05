@@ -1,16 +1,23 @@
 import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
-
+import * as MockedOctokit from "./__mocks__/@octokit/rest";
+import { Octokit } from "@octokit/rest";
 import Changelog from "./changelog";
-import * as fetch from "./fetch";
 import * as git from "./git";
 
+vi.mock("@octokit/rest");
 vi.mock("../src/progress-bar");
 vi.mock("../src/changelog");
 vi.mock("../src/github-api");
 vi.mock("./git");
-vi.mock("./fetch");
 
 describe("Changelog", () => {
+  beforeEach(() => {
+    Octokit.mockImplementation((...args) => MockedOctokit.Octokit(...args));
+    Octokit.plugin.mockImplementation(() => MockedOctokit.Octokit);
+  });
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
   describe("packageFromPath", () => {
     const TESTS = [
       ["", ""],
@@ -89,7 +96,7 @@ describe("Changelog", () => {
 
   describe("getCommitInfos", () => {
     beforeEach(() => {
-      fetch.__resetMockResponses();
+      MockedOctokit.__resetMockResponses();
 
       git.listCommits.mockImplementation(() => [
         {
@@ -135,7 +142,7 @@ describe("Changelog", () => {
       git.changedPaths.mockImplementation(() => []);
 
       const usersCache = {
-        "https://api.github.com/users/test-user": {
+        "test-user": {
           body: {
             login: "test-user",
             html_url: "https://github.com/test-user",
@@ -143,27 +150,39 @@ describe("Changelog", () => {
           },
         },
       };
-      const issuesCache = {
-        "https://api.github.com/repos/embroider-build/github-changelog/issues/2": {
-          body: {
+      const prCache = {
+        a0000001: [],
+        a0000002: [],
+        a0000003: [
+          {
+            number: 2,
+            title: "feat(module) Add new module (#2)",
+            labels: [{ name: "Type: New Feature" }, { name: "Status: In Progress" }],
+            user: usersCache["test-user"].body,
+          },
+        ],
+        a0000004: [
+          {
             number: 2,
             title: "This is the commit title for the issue (#2)",
             labels: [{ name: "Type: New Feature" }, { name: "Status: In Progress" }],
-            user: usersCache["https://api.github.com/users/test-user"].body,
+            user: usersCache["test-user"].body,
           },
-        },
+        ],
+        a0000005: [],
+        a0000006: [],
         "https://api.github.com/repos/embroider-build/github-changelog/issues/3": {
           body: {
             number: 2,
             title: "This is the commit title for the issue (#2)",
             labels: [{ name: "ignore" }, { name: "Status: In Progress" }],
-            user: usersCache["https://api.github.com/users/test-user"].body,
+            user: usersCache["test-user"].body,
           },
         },
       };
-      fetch.__setMockResponses({
-        ...usersCache,
-        ...issuesCache,
+      MockedOctokit.__setMockResponses({
+        users: { ...usersCache },
+        prs: { ...prCache },
       });
     });
 
@@ -181,39 +200,33 @@ describe("Changelog", () => {
 
   describe("getCommitters", () => {
     beforeEach(() => {
-      fetch.__resetMockResponses();
+      MockedOctokit.__resetMockResponses();
 
       const usersCache = {
-        "https://api.github.com/users/test-user": {
-          body: {
-            login: "test-user",
-            html_url: "https://github.com/test-user",
-            name: "Test User",
-          },
+        "test-user": {
+          login: "test-user",
+          html_url: "https://github.com/test-user",
+          name: "Test User",
         },
-        "https://api.github.com/users/test-user-1": {
-          body: {
-            login: "test-user-1",
-            html_url: "https://github.com/test-user-1",
-            name: "Test User 1",
-          },
+        "test-user-1": {
+          login: "test-user-1",
+          html_url: "https://github.com/test-user-1",
+          name: "Test User 1",
         },
-        "https://api.github.com/users/test-user-2": {
-          body: {
-            login: "test-user-2",
-            html_url: "https://github.com/test-user-2",
-            name: "Test User 2",
-          },
+        "test-user-2": {
+          login: "test-user-2",
+          html_url: "https://github.com/test-user-2",
+          name: "Test User 2",
         },
-        "https://api.github.com/users/user-bot": {
-          body: {
-            login: "user-bot",
-            html_url: "https://github.com/user-bot",
-            name: "User Bot",
-          },
+        "user-bot": {
+          login: "user-bot",
+          html_url: "https://github.com/user-bot",
+          name: "User Bot",
         },
       };
-      fetch.__setMockResponses(usersCache);
+      MockedOctokit.__setMockResponses({
+        users: { ...usersCache },
+      });
     });
 
     it("get list of valid commiters", async () => {
