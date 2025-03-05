@@ -1,13 +1,22 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
-    "target": "es2015",
-    "module": "CommonJS",
-    "removeComments": true,
-    "allowJs": true,
+    "target": "es2022",
+    "module": "NodeNext",
+    "declaration": true,
+    "typeRoots": ["types", "node_modules/@types"],
+    "esModuleInterop": true,
+    "moduleResolution": "nodenext",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "experimentalDecorators": true,
+    "allowUnreachableCode": false,
     "strict": true,
-    "lib": ["es2015"],
     "skipLibCheck": true,
+    "useUnknownInCatchVariables": false,
+    "rootDir": "./src",
+    "outDir": "./lib"
   },
   "include": ["src/**/*.ts"]
 }

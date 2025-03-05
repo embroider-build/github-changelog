@@ -1,5 +1,5 @@
-import { CommitInfo, Release } from "./interfaces";
-import MarkdownRenderer from "./markdown-renderer";
+import { CommitInfo, Release } from "./interfaces.js";
+import MarkdownRenderer from "./markdown-renderer.js";
 
 import { describe, it, expect } from "vitest";
 
