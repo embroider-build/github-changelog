@@ -99,8 +99,8 @@ export default class MarkdownRenderer {
     if (issue) {
       let markdown = "";
 
-      if (issue.number && issue.pull_request && issue.pull_request.html_url) {
-        const prUrl = issue.pull_request.html_url;
+      if (issue && issue.html_url) {
+        const prUrl = issue.html_url;
         markdown += `[#${issue.number}](${prUrl}) `;
       }
 
@@ -108,7 +108,7 @@ export default class MarkdownRenderer {
         issue.title = issue.title.replace(COMMIT_FIX_REGEX, `Closes [#$3](${this.options.baseIssueUrl}$3)`);
       }
 
-      markdown += `${issue.title} ([@${issue.user.login}](${issue.user.html_url}))`;
+      markdown += `${issue.title} ([@${issue.user!!.login}](${issue.user!!.html_url}))`;
 
       return markdown;
     }

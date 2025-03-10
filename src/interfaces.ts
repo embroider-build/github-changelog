@@ -5,7 +5,6 @@ export interface CommitInfo {
   message: string;
   tags?: string[];
   date: string;
-  issueNumber: string | null;
   githubIssue?: GitHubIssueResponse;
   categories?: string[];
   packages?: string[];

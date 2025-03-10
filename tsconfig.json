@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
+    "esModuleInterop": true,
     "outDir": "lib",
     "target": "es2015",
     "module": "CommonJS",
     "removeComments": true,
+    "moduleResolution": "Node16",
     "allowJs": true,
     "strict": true,
     "lib": ["es2015"],

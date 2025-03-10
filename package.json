@@ -25,7 +25,9 @@
     "changelog": "node ./bin/cli.js",
     "clean": "rimraf lib",
     "fix": "pnpm lint --fix",
-    "lint": "eslint src --ext ts --format stylish",
+    "lint": "pnpm run '/lint:.*/'",
+    "lint:js": "eslint src --ext ts --format stylish",
+    "lint:types": "tsc --noEmit",
     "prepare": "pnpm build",
     "prettier": "prettier --write 'src/**/*.ts'",
     "test": "vitest",
@@ -41,17 +43,21 @@
   },
   "dependencies": {
     "@manypkg/get-packages": "^2.2.0",
+    "@octokit/plugin-throttling": "^9.4.0",
+    "@octokit/rest": "^21.1.0",
     "chalk": "^4.0.0",
     "cli-highlight": "^2.1.11",
     "execa": "^5.0.0",
     "hosted-git-info": "^4.0.0",
-    "make-fetch-happen": "^9.0.0",
     "p-map": "^3.0.0",
     "progress": "^2.0.0",
     "yargs": "^17.1.0"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/hosted-git-info": "^3.0.5",
     "@types/node": "22.10.10",
+    "@types/yargs": "^17.0.33",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
     "eslint": "8.55.0",
@@ -62,7 +68,7 @@
     "release-plan": "^0.11.0",
     "rimraf": "3.0.2",
     "typescript": "5.0.4",
-    "vitest": "^3.0.4"
+    "vitest": "^3.0.7"
   },
   "packageManager": "pnpm@10.4.1+sha512.c753b6c3ad7afa13af388fa6d808035a008e30ea9993f58c6663e2bc5ff21679aa834db094987129aa4d488b86df57f7b634981b2f827cdcacc698cc0cfb88af",
   "engines": {

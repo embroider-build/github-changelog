@@ -1,22 +1,19 @@
-import { CommitListItem } from "../git";
-
+import * as Octokit from "../__mocks__/@octokit/rest";
 import { vi, describe, it, beforeEach, afterEach, expect } from "vitest";
-
-import * as fetch from "../fetch";
 import * as git from "../git";
 import Changelog from "../changelog";
 
+vi.mock("@octokit/rest");
 vi.mock("../../src/progress-bar");
 vi.mock("../../src/changelog");
 vi.mock("../../src/github-api");
 vi.mock("../git");
-vi.mock("../fetch");
 
 const listOfCommits = [];
 
 const listOfTags = ["v6.0.0", "v5.0.0", "v4.0.0", "v3.0.0", "v2.0.0", "v1.0.0", "v0.1.0"];
 
-const listOfPackagesForEachCommit= {
+const listOfPackagesForEachCommit = {
   a0000001: ["packages/random/foo.js"],
   a0000002: ["packages/random/package.json"],
   a0000003: ["packages/a-new-hope/rebels.js"],
@@ -53,67 +50,55 @@ const listOfFileForEachCommit = {
 };
 
 const usersCache = {
-  "https://api.github.com/users/luke": {
-    body: {
-      login: "luke",
-      html_url: "https://github.com/luke",
-      name: "Luke Skywalker",
-    },
+  luke: {
+    login: "luke",
+    html_url: "https://github.com/luke",
+    name: "Luke Skywalker",
   },
-  "https://api.github.com/users/vader": {
-    body: {
-      login: "vader",
-      html_url: "https://github.com/vader",
-      name: "Darth Vader",
-    },
+  vader: {
+    login: "vader",
+    html_url: "https://github.com/vader",
+    name: "Darth Vader",
   },
-  "https://api.github.com/users/gtarkin": {
-    body: {
-      login: "gtarkin",
-      html_url: "https://github.com/gtarkin",
-      name: "Governor Tarkin",
-    },
+  gtarkin: {
+    login: "gtarkin",
+    html_url: "https://github.com/gtarkin",
+    name: "Governor Tarkin",
   },
 };
 const issuesCache = {
-  "https://api.github.com/repos/embroider-build/github-changelog/issues/1": {
-    body: {
-      number: 1,
-      title: "feat: May the force be with you",
-      labels: [{ name: "Type: New Feature" }],
-      pull_request: {
-        html_url: "https://github.com/embroider-build/github-changelog/pull/1",
-      },
-      user: usersCache["https://api.github.com/users/luke"],
+  1: {
+    number: 1,
+    title: "feat: May the force be with you",
+    labels: [{ name: "Type: New Feature" }],
+    pull_request: {
+      html_url: "https://github.com/embroider-build/github-changelog/pull/1",
     },
+    user: usersCache["luke"],
   },
-  "https://api.github.com/repos/embroider-build/github-changelog/issues/2": {
-    body: {
-      number: 2,
-      title: "chore: Terminate her... immediately!",
-      labels: [{ name: "Type: Breaking Change" }],
-      pull_request: {
-        html_url: "https://github.com/embroider-build/github-changelog/pull/2",
-      },
-      user: usersCache["https://api.github.com/users/gtarkin"],
+  2: {
+    number: 2,
+    title: "chore: Terminate her... immediately!",
+    labels: [{ name: "Type: Breaking Change" }],
+    pull_request: {
+      html_url: "https://github.com/embroider-build/github-changelog/pull/2",
     },
+    user: usersCache["gtarkin"],
   },
-  "https://api.github.com/repos/embroider-build/github-changelog/issues/3": {
-    body: {
-      number: 3,
-      title: "fix: Get me the rebels base!",
-      labels: [{ name: "Type: Bug" }],
-      pull_request: {
-        html_url: "https://github.com/embroider-build/github-changelog/pull/3",
-      },
-      user: usersCache["https://api.github.com/users/vader"],
+  3: {
+    number: 3,
+    title: "fix: Get me the rebels base!",
+    labels: [{ name: "Type: Bug" }],
+    pull_request: {
+      html_url: "https://github.com/embroider-build/github-changelog/pull/3",
     },
+    user: usersCache["vader"],
   },
 };
 
 describe("multiple tags", () => {
   it("outputs correct changelog", async () => {
-    git.changedPaths.mockImplementation((sha) => listOfPackagesForEachCommit[sha]);
+    git.changedPaths.mockImplementation(sha => listOfPackagesForEachCommit[sha]);
     git.lastTag.mockImplementation(() => "v8.0.0");
     git.listCommits.mockImplementation(() => listOfCommits);
     git.listTagNames.mockImplementation(() => [
@@ -126,9 +111,9 @@ describe("multiple tags", () => {
       "the-phantom-menace@1.0.0",
     ]);
 
-    fetch.__setMockResponses({
-      ...usersCache,
-      ...issuesCache,
+    Octokit.__setMockResponses({
+      users: { ...usersCache },
+      prs: { ...issuesCache },
     });
 
     const changelog = new Changelog();
@@ -141,7 +126,7 @@ describe("multiple tags", () => {
 
 describe("createMarkdown", () => {
   beforeEach(() => {
-    fetch.__resetMockResponses();
+    Octokit.__resetMockResponses();
   });
 
   afterEach(() => {
@@ -150,14 +135,14 @@ describe("createMarkdown", () => {
 
   describe("single tags", () => {
     it("outputs correct changelog", async () => {
-      git.changedPaths.mockImplementation((sha) => listOfPackagesForEachCommit[sha]);
+      git.changedPaths.mockImplementation(sha => listOfPackagesForEachCommit[sha]);
       git.lastTag.mockImplementation(() => "v8.0.0");
       git.listCommits.mockImplementation(() => listOfCommits);
       git.listTagNames.mockImplementation(() => listOfTags);
 
-      fetch.__setMockResponses({
-        ...usersCache,
-        ...issuesCache,
+      Octokit.__setMockResponses({
+        users: { ...usersCache },
+        prs: { ...issuesCache },
       });
 
       const changelog = new Changelog();
@@ -170,14 +155,14 @@ describe("createMarkdown", () => {
 
   describe("single project", () => {
     it("outputs correct changelog", async () => {
-      git.changedPaths.mockImplementation((sha) => listOfFileForEachCommit[sha]);
+      git.changedPaths.mockImplementation(sha => listOfFileForEachCommit[sha]);
       git.lastTag.mockImplementation(() => "v8.0.0");
       git.listCommits.mockImplementation(() => listOfCommits);
       git.listTagNames.mockImplementation(() => listOfTags);
 
-      fetch.__setMockResponses({
-        ...usersCache,
-        ...issuesCache,
+      Octokit.__setMockResponses({
+        users: { ...usersCache },
+        prs: { ...issuesCache },
       });
 
       const changelog = new Changelog();
