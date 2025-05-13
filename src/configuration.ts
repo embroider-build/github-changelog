@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const hostedGitInfo = require("hosted-git-info");
-const { getPackagesSync } = require("@manypkg/get-packages");
+import { getPackagesSync } from "@manypkg/get-packages";
 
 import ConfigurationError from "./configuration-error";
 import { getRootPath } from "./git";
@@ -9,6 +9,7 @@ import { getRootPath } from "./git";
 export interface Configuration {
   repo: string;
   github?: string;
+  branch?: string;
   rootPath: string;
   labels: { [key: string]: string };
   ignoreCommitters: string[];
@@ -22,6 +23,7 @@ export interface Configuration {
 
 export interface ConfigLoaderOptions {
   repo?: string;
+  branch?: string;
   nextVersionFromMetadata?: boolean;
 }
 
@@ -30,29 +32,9 @@ export function load(options: ConfigLoaderOptions = {}): Configuration {
   return fromPath(rootPath, options);
 }
 
-interface PackageJson {
-  type: boolean;
-  private: boolean;
-  name: string;
-}
-
-interface Package {
-  dir: string;
-  relativeDir: string;
-  packageJson: PackageJson;
-}
-
-interface PackagesResult {
-  tool: {
-    type: "pnpm" | "yarn" | "npm";
-  };
-  packages: Package[];
-  rootPackage: Package;
-}
-
 function getPackages(rootPath: string): { name: string; path: string }[] {
   try {
-    let { packages } = getPackagesSync(rootPath) as PackagesResult;
+    let { packages } = getPackagesSync(rootPath);
 
     return packages
       .filter(pkg => !pkg.packageJson.private)
@@ -82,6 +64,10 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
 
   if (options.repo) {
     config.repo = options.repo;
+  }
+
+  if (options.branch) {
+    config.branch = options.branch;
   }
 
   // Step 2: fill partial config with defaults
@@ -155,14 +141,14 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
 function fromLernaConfig(rootPath: string): Partial<Configuration> | undefined {
   const lernaPath = path.join(rootPath, "lerna.json");
   if (fs.existsSync(lernaPath)) {
-    return JSON.parse(fs.readFileSync(lernaPath)).changelog;
+    return JSON.parse(fs.readFileSync(lernaPath).toString()).changelog;
   }
 }
 
 function fromPackageConfig(rootPath: string): Partial<Configuration> | undefined {
   const pkgPath = path.join(rootPath, "package.json");
   if (fs.existsSync(pkgPath)) {
-    return JSON.parse(fs.readFileSync(pkgPath)).changelog;
+    return JSON.parse(fs.readFileSync(pkgPath).toString()).changelog;
   }
 }
 
@@ -172,7 +158,7 @@ function findRepo(rootPath: string): string | undefined {
     return;
   }
 
-  const pkg = JSON.parse(fs.readFileSync(pkgPath));
+  const pkg = JSON.parse(fs.readFileSync(pkgPath).toString());
   if (!pkg.repository) {
     return;
   }
@@ -184,8 +170,8 @@ function findNextVersion(rootPath: string): string | undefined {
   const pkgPath = path.join(rootPath, "package.json");
   const lernaPath = path.join(rootPath, "lerna.json");
 
-  const pkg = fs.existsSync(pkgPath) ? JSON.parse(fs.readFileSync(pkgPath)) : {};
-  const lerna = fs.existsSync(lernaPath) ? JSON.parse(fs.readFileSync(lernaPath)) : {};
+  const pkg = fs.existsSync(pkgPath) ? JSON.parse(fs.readFileSync(pkgPath).toString()) : {};
+  const lerna = fs.existsSync(lernaPath) ? JSON.parse(fs.readFileSync(lernaPath).toString()) : {};
 
   return pkg.version ? `v${pkg.version}` : lerna.version ? `v${lerna.version}` : undefined;
 }
@@ -199,11 +185,11 @@ export function findRepoFromPkg(pkg: any): string | undefined {
   // cannot detect self hosted GitHub, e.g
   // git@github.host.com:embroider-build/github-changelog.git
   // https://github.host.com/embroider-build/github-changelog.git
-  const matchHttps = /https:\/\/[^\/]+\/([^\/]+)\/([^\/]+)\.git/.exec(url);
+  const matchHttps = /https:\/\/[^/]+\/([^/]+)\/([^/]+)\.git/.exec(url);
   if (matchHttps && matchHttps.length === 3) {
     return `${matchHttps[1]}/${matchHttps[2]}`;
   }
-  const matchGit = /git@[^:]+:([^\/]+)\/([^\/]+)\.git/.exec(url);
+  const matchGit = /git@[^:]+:([^/]+)\/([^/]+)\.git/.exec(url);
   if (matchGit && matchGit.length === 3) {
     return `${matchGit[1]}/${matchGit[2]}`;
   }
