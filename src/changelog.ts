@@ -8,6 +8,7 @@ import * as Git from "./git";
 import GithubAPI, { GitHubUserResponse } from "./github-api";
 import { CommitInfo, Release } from "./interfaces";
 import MarkdownRenderer from "./markdown-renderer";
+import { prerelease } from "semver";
 
 const UNRELEASED_TAG = "___unreleased___";
 
@@ -158,7 +159,8 @@ export default class Changelog {
         tagsInCommit = refName
           .split(", ")
           .filter(ref => ref.startsWith(TAG_PREFIX))
-          .map(ref => ref.substr(TAG_PREFIX.length));
+          .map(ref => ref.substr(TAG_PREFIX.length))
+          .filter(ref => !prerelease(ref));
       }
 
       const issueNumber = findPullRequestId(message);
