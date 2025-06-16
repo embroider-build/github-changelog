@@ -15,23 +15,18 @@ describe("command line interface", () => {
 
     expect(stdout).toMatchInlineSnapshot(`
       "
-      ## Unreleased (2025-03-05)
+      ## Unreleased (2025-06-16)
 
       #### :rocket: Enhancement
       * \`github-changelog\`
         * [#33](https://github.com/embroider-build/github-changelog/pull/33) support github enterpise url detection and env vars ([@patricklx](https://github.com/patricklx))
 
-      #### Committers: 1
-      - Patrick Pircher ([@patricklx](https://github.com/patricklx))
-
-
-      ## v1.1.0-github-changelog (2025-01-25)
-
       #### :house: Internal
       * \`github-changelog\`
         * [#29](https://github.com/embroider-build/github-changelog/pull/29) Prepare Release ([@github-actions[bot]](https://github.com/apps/github-actions))
 
-      #### Committers: 1
+      #### Committers: 2
+      - Patrick Pircher ([@patricklx](https://github.com/patricklx))
       - [@github-actions[bot]](https://github.com/apps/github-actions)"
     `);
   });
