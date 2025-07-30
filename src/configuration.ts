@@ -14,6 +14,7 @@ export interface Configuration {
   ignoreCommitters: string[];
   ignoreLabel: string;
   cacheDir?: string;
+  ignoreReleases?: boolean;
   nextVersion: string | undefined;
   nextVersionFromMetadata?: boolean;
   wildcardLabel?: string;
