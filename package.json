@@ -30,7 +30,7 @@
     "prettier": "prettier --write 'src/**/*.ts'",
     "test": "vitest",
     "test-ci": "pnpm build && pnpm test",
-    "watch": "pnpm build -- --watch"
+    "watch": "pnpm build --watch"
   },
   "prettier": {
     "arrowParens": "avoid",
