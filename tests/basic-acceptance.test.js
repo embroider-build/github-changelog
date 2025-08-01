@@ -6,6 +6,8 @@ if (!process.env.GITHUB_AUTH) {
   console.warn("Warning: to run all tests you need to provide a GITHUB_AUTH");
 }
 
+const todaysDate = new Date().toISOString().split("T")[0];
+
 describe.skipIf(!process.env.GITHUB_AUTH)("command line interface", () => {
   it("can produce a result", async () => {
     const { stdout } =
@@ -13,7 +15,7 @@ describe.skipIf(!process.env.GITHUB_AUTH)("command line interface", () => {
 
     expect(stdout).toMatchInlineSnapshot(`
       "
-      ## Unreleased (2025-07-31)
+      ## Unreleased (${todaysDate})
 
       #### :rocket: Enhancement
       * \`github-changelog\`
@@ -40,7 +42,7 @@ describe.skipIf(!process.env.GITHUB_AUTH)("command line interface", () => {
 
     expect(stdout).toMatchInlineSnapshot(`
       "
-      ## Unreleased (2025-07-31)
+      ## Unreleased (${todaysDate})
 
       #### :rocket: Enhancement
       * \`github-changelog\`
