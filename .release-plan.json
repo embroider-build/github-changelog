@@ -1,21 +1,17 @@
 {
   "solution": {
     "github-changelog": {
-      "impact": "minor",
-      "oldVersion": "2.0.0",
-      "newVersion": "2.1.0",
+      "impact": "patch",
+      "oldVersion": "2.1.0",
+      "newVersion": "2.1.1",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
           "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-08-01)\n\ngithub-changelog 2.1.0 (minor)\n\n#### :rocket: Enhancement\n* `github-changelog`\n  * [#53](https://github.com/embroider-build/github-changelog/pull/53) Add an --ignore-releases option ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `github-changelog`\n  * [#50](https://github.com/embroider-build/github-changelog/pull/50) use self for release plan ([@patricklx](https://github.com/patricklx))\n  * [#47](https://github.com/embroider-build/github-changelog/pull/47) provide a basic acceptance test ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- Patrick Pircher ([@patricklx](https://github.com/patricklx))\n"
+  "description": "## Release (2025-08-01)\n\ngithub-changelog 2.1.1 (patch)\n\n#### :bug: Bug Fix\n* `github-changelog`\n  * [#54](https://github.com/embroider-build/github-changelog/pull/54) Fix tag and commit detection ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
