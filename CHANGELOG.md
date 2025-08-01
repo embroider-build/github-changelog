@@ -1,5 +1,22 @@
 # Changelog
 
+## Release (2025-08-01)
+
+github-changelog 2.1.0 (minor)
+
+#### :rocket: Enhancement
+* `github-changelog`
+  * [#53](https://github.com/embroider-build/github-changelog/pull/53) Add an --ignore-releases option ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* `github-changelog`
+  * [#50](https://github.com/embroider-build/github-changelog/pull/50) use self for release plan ([@patricklx](https://github.com/patricklx))
+  * [#47](https://github.com/embroider-build/github-changelog/pull/47) provide a basic acceptance test ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+
 ## Release (2025-03-05)
 
 github-changelog 2.0.0 (major)
