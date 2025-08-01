@@ -2,6 +2,17 @@
 
 ## Release (2025-08-01)
 
+github-changelog 2.1.1 (patch)
+
+#### :bug: Bug Fix
+* `github-changelog`
+  * [#54](https://github.com/embroider-build/github-changelog/pull/54) Fix tag and commit detection ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
+## Release (2025-08-01)
+
 github-changelog 2.1.0 (minor)
 
 #### :rocket: Enhancement
