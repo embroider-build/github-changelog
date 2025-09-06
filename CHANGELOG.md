@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2025-09-06)
+
+github-changelog 2.1.2 (patch)
+
+#### :bug: Bug Fix
+* `github-changelog`
+  * [#58](https://github.com/embroider-build/github-changelog/pull/58) fix issue where nested package structures aren't reported correctly ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2025-08-01)
 
 github-changelog 2.1.1 (patch)

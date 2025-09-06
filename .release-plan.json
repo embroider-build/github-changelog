@@ -2,8 +2,8 @@
   "solution": {
     "github-changelog": {
       "impact": "patch",
-      "oldVersion": "2.1.0",
-      "newVersion": "2.1.1",
+      "oldVersion": "2.1.1",
+      "newVersion": "2.1.2",
       "constraints": [
         {
           "impact": "patch",
@@ -13,5 +13,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-08-01)\n\ngithub-changelog 2.1.1 (patch)\n\n#### :bug: Bug Fix\n* `github-changelog`\n  * [#54](https://github.com/embroider-build/github-changelog/pull/54) Fix tag and commit detection ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2025-09-06)\n\ngithub-changelog 2.1.2 (patch)\n\n#### :bug: Bug Fix\n* `github-changelog`\n  * [#58](https://github.com/embroider-build/github-changelog/pull/58) fix issue where nested package structures aren't reported correctly ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
